@@ -14,3 +14,17 @@ async function getToken() {
         return 
     }
 }
+
+async function getArtistById(id) {
+    let token = await getToken()
+
+    return await axios(`https://api.spotify.com/v1/artists/${id}`, {
+        'method': 'GET',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token.data.access_token
+            }
+        }
+    )
+}
