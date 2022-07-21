@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export function HomePage() {
+export function SearchPage() {
     return (
         <>
 
