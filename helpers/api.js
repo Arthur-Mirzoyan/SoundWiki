@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function getToken() {
+async function getToken() {
     try {
         return await axios('https://accounts.spotify.com/api/token', {
             'method': 'POST',
@@ -16,8 +16,7 @@ export async function getToken() {
         return
     }
 }
-
-export async function getArtistById(id) {
+async function getArtistById(id) {
     let token = await getToken();
 
     return await axios(`https://api.spotify.com/v1/artists/${id}`, {
@@ -32,6 +31,7 @@ export async function getArtistById(id) {
 }
 
 export default async function getItemsByName(name) {
+    name = (name.trim()).replace(' ', '%20');
     let token = await getToken();
 
     return await axios(`https://api.spotify.com/v1/search?q=${name}&type=track%2Cartist`, {

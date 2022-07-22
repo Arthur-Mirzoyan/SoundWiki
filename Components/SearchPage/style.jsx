@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
     info: {
          color: "white",
          fontSize: 16
+    },
+    button: {
+        backgroundColor: '#505050',
+        borderRadius: 5,
+        margin: 5
     }
 });
 

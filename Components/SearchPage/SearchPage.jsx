@@ -1,12 +1,12 @@
-import { Text, View, TextInput, Button } from 'react-native';
+import { Text, View, TextInput, Pressable } from 'react-native';
 import styles from './style';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import getItemsByName from '../../helpers/api';
 
 export function SearchPage() {
 
-    const [input, setInput] = useState("");
     const [info, setInfo] = useState([]);
+    const [names, setNames] = useState([]);
 
     return (
         <>
@@ -16,28 +16,36 @@ export function SearchPage() {
                     placeholderTextColor="white"
                     placeholder="🔍    Artists or songs"
                     onChangeText={(text) => {
-                        setInput(text);
+                        setNames([]);
+                        if (text !== " " && text !== "") {
+                            console.clear();
+                            console.log(text);
+                            (async () => {
+                                setInfo(Object.entries((await getItemsByName(text)).data.artists.items));
+                                for (let i in info) {
+                                    console.log(Object.entries(info[i][1])[4]); // id
+                                    console.log((Object.entries(info[i][1]))[6][1]); // name
+                                    setNames(names => [...names, (Object.entries(info[i][1]))[6][1]])
+                                    console.log("\n");
+                                }
+                            })();
+                        }
                     }}
                 >
                 </TextInput>
                 <Text style={styles.text}>Browse All</Text>
-                <Button title="Search" onPress={() => {
-                    (async () => {
-                        setInput(checkName(input));
-                        setInfo(Object.entries((await getItemsByName(input)).data.artists.items[0]));
-                    })();
-                    for (let i in info) {
-                        console.log(info[i][0], ":", info[i][1]);
+
+                <View>
+                    {
+                        names.map((name, index) => (
+                            <Pressable style={styles.button}>
+                                <Text style={styles.info} key={index}>{name}</Text>
+                            </Pressable>
+                        ))
                     }
-                }} />
+                </View>
 
             </View>
         </>
     );
-}
-
-function checkName(name) {
-    name = name.trim();
-    name = name.replace(' ', '%20');
-    return name;
 }
