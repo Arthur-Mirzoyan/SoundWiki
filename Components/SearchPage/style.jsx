@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontSize: 16,
         fontWeight: 'bold'
+    },
+    info: {
+         color: "white",
+         fontSize: 16
     }
 });
 

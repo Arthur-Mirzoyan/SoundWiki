@@ -1,4 +1,6 @@
-async function getToken() {
+import axios from 'axios';
+
+export async function getToken() {
     try {
         return await axios('https://accounts.spotify.com/api/token', {
             'method': 'POST',
@@ -11,6 +13,34 @@ async function getToken() {
             data: 'grant_type=client_credentials'
         })
     } catch (error) {
-        return 
+        return
     }
+}
+
+export async function getArtistById(id) {
+    let token = await getToken();
+
+    return await axios(`https://api.spotify.com/v1/artists/${id}`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    }
+    )
+}
+
+export default async function getItemsByName(name) {
+    let token = await getToken();
+
+    return await axios(`https://api.spotify.com/v1/search?q=${name}&type=track%2Cartist`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    }
+    )
 }
