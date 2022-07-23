@@ -1,24 +1,24 @@
-async function getToken() {
+import axios from 'axios'
+
+async function getSpotifyToken() {
     try {
         return await axios('https://accounts.spotify.com/api/token', {
             'method': 'POST',
             'headers': {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + (
-                    new Buffer('911cd286aff047ec9f775031b107ece2' + ':' + '0313f472c40c4bd79b55e89e95002f25').toString('base64')
-                )
+                'Authorization': 'Basic OTExY2QyODZhZmYwNDdlYzlmNzc1MDMxYjEwN2VjZTI6MDMxM2Y0NzJjNDBjNGJkNzliNTVlODllOTUwMDJmMjU='
             },
             data: 'grant_type=client_credentials'
         })
     } catch (error) {
-        return 
+        return null
     }
 }
 
-async function getArtistById(id) {
-    let token = await getToken()
+export async function getSpotifyArtist(id) {
+    const token = await getSpotifyToken()
 
-    return await axios(`https://api.spotify.com/v1/artists/${id}`, {
+    return axios(`https://api.spotify.com/v1/artists/${id}`, {
         'method': 'GET',
             'headers': {
                 'Content-Type': 'application/json',
