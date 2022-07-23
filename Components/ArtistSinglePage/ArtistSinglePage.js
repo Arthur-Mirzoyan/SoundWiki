@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, ImageBackground, View, Text, FlatList} from 'react-native';
-import {getSpotifyArtist} from "../../helpers/api";
+import {Dimensions, StyleSheet, ImageBackground, View, Text, ScrollView} from 'react-native';
+import {getSpotifyArtist, getSpotifyArtistTopTracks} from "../../helpers/api";
 import {ReadMore} from "./ReadMore/ReadMore";
+import {Track} from "./Track/Track";
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window')
 
@@ -9,36 +10,48 @@ export function ArtistSinglePage() {
     const id = '776Uo845nYHJpNaStv1Ds4' // 0k17h0D3J5VfsdmQ1iZtE9, 776Uo845nYHJpNaStv1Ds4
 
     const [artist, setArtist] = useState({})
+    const [topTracks, setTopTracks] = useState([])
 
     useEffect(() => {
         (async () => {
             const artist = (await getSpotifyArtist(id)).data
+            const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
 
             setArtist(artist)
+            setTopTracks(topTracks)
         })()
     }, [])
 
     return (
-        <>
-            <ImageBackground style={styles.avatar} source={artist.images ? {uri: artist.images[0].url} : null }>
+        <ScrollView>
+            <ImageBackground style={styles.avatar} source={artist.images ? {uri: artist.images[0].url} : null}>
                 <View style={styles.nameBox}>
-                    <Text style={styles.name} >{artist.name}</Text>
+                    <Text style={styles.name}>{artist.name}</Text>
                 </View>
             </ImageBackground>
-            <View style={styles.container} >
+            <View style={styles.container}>
                 <View>
-                    <Text style={styles.genresTitle}>Genres: </Text>
+                    <Text style={styles.genresTitle}>Genres:</Text>
                     <ReadMore
                         numberOfLines={1}
-                        textStyle={styles.genres}
+                        textStyle={styles.genresList}
                         readMoreStyle={styles.genresReadMore}>
                         {artist.genres?.join(', ')}
                     </ReadMore>
                 </View>
+                <View style={styles.topTracksSection} >
+                    <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
+                    {
+                        topTracks.slice(0, 5).map((track, index) =>
+                            <Track item={track} index={index} key={track.id} />
+                        )
+                    }
+                </View>
             </View>
-        </>
+        </ScrollView>
     )
 }
+
 
 const styles = StyleSheet.create({
     avatar: {
@@ -63,14 +76,23 @@ const styles = StyleSheet.create({
     },
     genresTitle: {
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: 5
     },
-    genres: {
+    genresList: {
         fontSize: 20
     },
     genresReadMore: {
         color: 'blue',
         fontSize: 17,
         marginTop: 3
+    },
+    topTracksSection: {
+        marginTop: 20,
+    },
+    topTracksTitle: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 10
     }
 })

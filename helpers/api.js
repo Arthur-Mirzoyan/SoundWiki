@@ -28,3 +28,17 @@ export async function getSpotifyArtist(id) {
         }
     )
 }
+
+export async function getSpotifyArtistTopTracks(id) {
+    const token = await getSpotifyToken()
+
+    return axios(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`, {
+            'method': 'GET',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token.data.access_token
+            }
+        }
+    )
+}
