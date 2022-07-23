@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Buffer } from 'buffer';
 
 async function getToken() {
     try {
@@ -13,7 +14,7 @@ async function getToken() {
             data: 'grant_type=client_credentials'
         })
     } catch (error) {
-        return
+        alert(error);
     }
 }
 async function getArtistById(id) {
@@ -30,11 +31,11 @@ async function getArtistById(id) {
     )
 }
 
-export default async function getItemsByName(name) {
+export default async function getItemsByName(name, type) {
     name = (name.trim()).replace(' ', '%20');
     let token = await getToken();
 
-    return await axios(`https://api.spotify.com/v1/search?q=${name}&type=track%2Cartist`, {
+    return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}`, {
         'method': 'GET',
         'headers': {
             'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ tabBarHideOnKeyboard: true }}>
           <Tab.Screen name="Browse" component={BrowsePage} />
           <Tab.Screen name="Search" options={headerOptions} component={SearchPage} />
         </Tab.Navigator>

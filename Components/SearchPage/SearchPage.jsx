@@ -1,51 +1,95 @@
-import { Text, View, TextInput, Pressable } from 'react-native';
+import { Text, View, TextInput, Pressable, ScrollView } from 'react-native';
 import styles from './style';
 import { useState } from 'react';
 import getItemsByName from '../../helpers/api';
+import React from 'react';
 
 export function SearchPage() {
 
-    const [info, setInfo] = useState([]);
-    const [names, setNames] = useState([]);
+    const [artists, setArtists] = useState([]);
+    const [artistsId, setArtistsId] = useState([]);
+    const [tracks, setTracks] = useState([]);
+    const [tracksId, setTracksId] = useState([]);
+    const [isShown, setIsShown] = useState(true);
+    const [optionsShown, setOptionsShown] = useState(false);
 
     return (
         <>
-            <View style={styles.view}>
+            <ScrollView style={styles.view}>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor="white"
-                    placeholder="🔍    Artists or songs"
+                    placeholder=" Search artists or songs "
                     onChangeText={(text) => {
-                        setNames([]);
+                        setArtists([]);
+                        setArtistsId([]);
+                        setTracks([]);
+                        setTracksId([]);
+
                         if (text !== " " && text !== "") {
-                            console.clear();
-                            console.log(text);
+                            setOptionsShown(true);
                             (async () => {
-                                setInfo(Object.entries((await getItemsByName(text)).data.artists.items));
-                                for (let i in info) {
-                                    console.log(Object.entries(info[i][1])[4]); // id
-                                    console.log((Object.entries(info[i][1]))[6][1]); // name
-                                    setNames(names => [...names, (Object.entries(info[i][1]))[6][1]])
-                                    console.log("\n");
+                                let artistData = Object.entries((await getItemsByName(text, "artist")).data.artists.items);
+                                for (let i in artistData) {
+                                    let artist = Object.entries(artistData[i][1])[6][1];
+                                    let id = Object.entries(artistData[i][1])[4][1];
+                                    setArtists(artists => [...artists, artist]);
+                                    setArtistsId(artistsId => [...artistsId, id]);
+                                }
+
+                                let trackData = Object.entries((await getItemsByName(text, "track")).data.tracks.items);
+                                for (let i in trackData) {
+                                    let track = Object.entries(trackData[i][1])[11][1];
+                                    let id = Object.entries(trackData[i][1])[9][1];
+                                    setTracks(tracks => [...tracks, track]);
+                                    setTracksId(tracksId => [...tracksId, id]);
                                 }
                             })();
                         }
+                        else setOptionsShown(false);
                     }}
                 >
                 </TextInput>
-                <Text style={styles.text}>Browse All</Text>
 
-                <View>
-                    {
-                        names.map((name, index) => (
-                            <Pressable style={styles.button}>
-                                <Text style={styles.info} key={index}>{name}</Text>
+                {
+                    optionsShown && (
+                        <View style={{ flexDirection: 'row' }}>
+                            <Pressable style={isShown ? styles.chosen : styles.option} onPress={() => setIsShown(true)}>
+                                <Text>Artists</Text>
                             </Pressable>
-                        ))
-                    }
-                </View>
-
-            </View>
+                            <Pressable style={!isShown ? styles.chosen : styles.option} onPress={() => setIsShown(false)}>
+                                <Text>Tracks</Text>
+                            </Pressable>
+                        </View>
+                    )
+                }
+                {
+                    isShown && (
+                        <View>
+                            {
+                                artists.map((name, index) => (
+                                    <Pressable key={artistsId[index]} style={styles.button}>
+                                        <Text style={styles.info}>{name}</Text>
+                                    </Pressable>
+                                ))
+                            }
+                        </View>
+                    )
+                }
+                {
+                    !isShown && (
+                        <View>
+                            {
+                                tracks.map((name, index) => (
+                                    <Pressable key={tracksId[index]} style={styles.button}>
+                                        <Text style={styles.info}>{name}</Text>
+                                    </Pressable>
+                                ))
+                            }
+                        </View>
+                    )
+                }
+            </ScrollView>
         </>
     );
 }
