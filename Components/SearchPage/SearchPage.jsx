@@ -64,7 +64,7 @@ export function SearchPage() {
                     )
                 }
                 {
-                    isShown && (
+                    isShown ? (
                         <View>
                             {
                                 artists.map((name, index) => (
@@ -74,10 +74,7 @@ export function SearchPage() {
                                 ))
                             }
                         </View>
-                    )
-                }
-                {
-                    !isShown && (
+                    ) : (
                         <View>
                             {
                                 tracks.map((name, index) => (
