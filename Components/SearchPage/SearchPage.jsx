@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Pressable, ScrollView } from 'react-native';
+import { Text, View, TextInput, Pressable, ScrollView, Image } from 'react-native';
 import styles from './style';
 import { useState } from 'react';
 import getItemsByName from '../../helpers/api';
@@ -8,8 +8,10 @@ export function SearchPage() {
 
     const [artists, setArtists] = useState([]);
     const [artistsId, setArtistsId] = useState([]);
+    const [artistsImg, setArtistsImg] = useState([]);
     const [tracks, setTracks] = useState([]);
     const [tracksId, setTracksId] = useState([]);
+    const [tracksImg, setTracksImg] = useState([]);
     const [isShown, setIsShown] = useState(true);
     const [optionsShown, setOptionsShown] = useState(false);
 
@@ -29,20 +31,26 @@ export function SearchPage() {
                         if (text !== " " && text !== "") {
                             setOptionsShown(true);
                             (async () => {
-                                let artistData = Object.entries((await getItemsByName(text, "artist")).data.artists.items);
+                                let artistData = ((await getItemsByName(text, "artist")).data.artists.items);
                                 for (let i in artistData) {
-                                    let artist = Object.entries(artistData[i][1])[6][1];
-                                    let id = Object.entries(artistData[i][1])[4][1];
+                                    let info = artistData[i];
+                                    let artist = info.name;
+                                    let Id = info.id;
+                                    let img = info.images[2].url;
                                     setArtists(artists => [...artists, artist]);
-                                    setArtistsId(artistsId => [...artistsId, id]);
+                                    setArtistsId(artistsId => [...artistsId, Id]);
+                                    setArtistsImg(artistsImg => [...artistsImg, img]);
                                 }
 
-                                let trackData = Object.entries((await getItemsByName(text, "track")).data.tracks.items);
+                                let trackData = ((await getItemsByName(text, "track")).data.tracks.items);
                                 for (let i in trackData) {
-                                    let track = Object.entries(trackData[i][1])[11][1];
-                                    let id = Object.entries(trackData[i][1])[9][1];
+                                    let info = trackData[i];
+                                    let track = info.name;
+                                    let Id = info.id;
+                                    let img = info.album.images[2].url;
                                     setTracks(tracks => [...tracks, track]);
-                                    setTracksId(tracksId => [...tracksId, id]);
+                                    setTracksId(tracksId => [...tracksId, Id]);
+                                    setTracksImg(tracksImg => [...tracksImg, img]);
                                 }
                             })();
                         }
@@ -63,29 +71,23 @@ export function SearchPage() {
                         </View>
                     )
                 }
-                {
-                    isShown ? (
-                        <View>
-                            {
-                                artists.map((name, index) => (
-                                    <Pressable key={artistsId[index]} style={styles.button}>
-                                        <Text style={styles.info}>{name}</Text>
-                                    </Pressable>
-                                ))
-                            }
-                        </View>
-                    ) : (
-                        <View>
-                            {
-                                tracks.map((name, index) => (
-                                    <Pressable key={tracksId[index]} style={styles.button}>
-                                        <Text style={styles.info}>{name}</Text>
-                                    </Pressable>
-                                ))
-                            }
-                        </View>
-                    )
-                }
+                <View>
+                    {
+                        isShown ?
+                            artists.map((name, index) => (
+                                <Pressable key={name + artistsId[index]} style={styles.button}>
+                                    <Image style={{ width: 32, height: 32 }} source={{ uri: artistsImg[index] }} />
+                                    <Text style={styles.info}>{name}</Text>
+                                </Pressable>
+                            )) :
+                            tracks.map((name, index) => (
+                                <Pressable key={name + tracksId[index]} style={styles.button}>
+                                    <Image style={{ width: 32, height: 32 }} source={{ uri: tracksImg[index] }} />
+                                    <Text style={styles.info}>{name}</Text>
+                                </Pressable>
+                            ))
+                    }
+                </View>
             </ScrollView>
         </>
     );
