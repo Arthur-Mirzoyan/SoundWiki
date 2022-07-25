@@ -3,21 +3,25 @@ import styles from './style';
 import { useState } from 'react';
 import getItemsByName from '../../helpers/api';
 import React from 'react';
+import uuid from 'react-native-uuid';
 
 export function SearchPage() {
+    const NOT_FOUND = "https://teelindy.com/wp-content/uploads/2019/03/default_image.png";
 
     const [artists, setArtists] = useState([]);
     const [artistsId, setArtistsId] = useState([]);
     const [artistsImg, setArtistsImg] = useState([]);
+
     const [tracks, setTracks] = useState([]);
     const [tracksId, setTracksId] = useState([]);
     const [tracksImg, setTracksImg] = useState([]);
+
     const [isShown, setIsShown] = useState(true);
     const [optionsShown, setOptionsShown] = useState(false);
 
     return (
         <>
-            <ScrollView style={styles.view}>
+            <View style={{ backgroundColor: '#101010', paddingBottom: 7 }}>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor="white"
@@ -25,32 +29,44 @@ export function SearchPage() {
                     onChangeText={(text) => {
                         setArtists([]);
                         setArtistsId([]);
+                        setArtistsImg([]);
+
                         setTracks([]);
                         setTracksId([]);
+                        setTracksImg([]);
 
                         if (text !== " " && text !== "") {
                             setOptionsShown(true);
                             (async () => {
-                                let artistData = ((await getItemsByName(text, "artist")).data.artists.items);
+                                let artistData = (await getItemsByName(text, "artist")).data.artists.items;
                                 for (let i in artistData) {
                                     let info = artistData[i];
-                                    let artist = info.name;
-                                    let Id = info.id;
-                                    let img = info.images[2].url;
-                                    setArtists(artists => [...artists, artist]);
-                                    setArtistsId(artistsId => [...artistsId, Id]);
-                                    setArtistsImg(artistsImg => [...artistsImg, img]);
+
+                                    setArtists(artists => [...artists, info.name]);
+                                    setArtistsId(artistsId => [...artistsId, info.id]);
+                                    try {
+                                        let img = info.images[1].url;
+                                        setArtistsImg(artistsImg => [...artistsImg, img]);
+                                    }
+                                    catch (error) {
+                                        setArtistsImg(artistsImg => [...artistsImg, NOT_FOUND]);
+                                    }
+
                                 }
 
-                                let trackData = ((await getItemsByName(text, "track")).data.tracks.items);
+                                let trackData = (await getItemsByName(text, "track")).data.tracks.items;
                                 for (let i in trackData) {
                                     let info = trackData[i];
-                                    let track = info.name;
-                                    let Id = info.id;
-                                    let img = info.album.images[2].url;
-                                    setTracks(tracks => [...tracks, track]);
-                                    setTracksId(tracksId => [...tracksId, Id]);
-                                    setTracksImg(tracksImg => [...tracksImg, img]);
+
+                                    setTracks(tracks => [...tracks, info.name]);
+                                    setTracksId(tracksId => [...tracksId, info.id]);
+                                    try {
+                                        let img = info.album.images[1].url;
+                                        setTracksImg(tracksImg => [...tracksImg, img]);
+                                    }
+                                    catch (error) {
+                                        setTracksImg(tracksImg => [...tracksImg, NOT_FOUND]);
+                                    }
                                 }
                             })();
                         }
@@ -61,33 +77,43 @@ export function SearchPage() {
 
                 {
                     optionsShown && (
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Pressable style={isShown ? styles.chosen : styles.option} onPress={() => setIsShown(true)}>
-                                <Text>Artists</Text>
+                                <Text style={{ color: 'white' }}>Artists</Text>
                             </Pressable>
                             <Pressable style={!isShown ? styles.chosen : styles.option} onPress={() => setIsShown(false)}>
-                                <Text>Tracks</Text>
+                                <Text style={{ color: 'white' }}>Tracks</Text>
                             </Pressable>
                         </View>
                     )
                 }
-                <View>
-                    {
-                        isShown ?
-                            artists.map((name, index) => (
-                                <Pressable key={name + artistsId[index]} style={styles.button}>
-                                    <Image style={{ width: 32, height: 32 }} source={{ uri: artistsImg[index] }} />
-                                    <Text style={styles.info}>{name}</Text>
-                                </Pressable>
-                            )) :
-                            tracks.map((name, index) => (
-                                <Pressable key={name + tracksId[index]} style={styles.button}>
-                                    <Image style={{ width: 32, height: 32 }} source={{ uri: tracksImg[index] }} />
-                                    <Text style={styles.info}>{name}</Text>
-                                </Pressable>
-                            ))
-                    }
-                </View>
+
+            </View>
+
+            <ScrollView style={styles.view}>
+                {
+                    optionsShown && (
+                        <View style={styles.result}>
+                            {
+                                isShown ?
+                                    artists.map((name, index) => (
+                                        <Pressable key={uuid.v4()} style={styles.button}>
+                                            <View style={{ justifyContent: 'center' }}>
+                                                <Image style={{ width: 160, height: 160 }} source={{ uri: artistsImg[index] }} />
+                                                <Text style={styles.info}>{name}</Text>
+                                            </View>
+                                        </Pressable>
+                                    )) :
+                                    tracks.map((name, index) => (
+                                        <Pressable key={uuid.v4()} style={styles.button}>
+                                            <Image style={{ width: 160, height: 160 }} source={{ uri: tracksImg[index] }} />
+                                            <Text style={styles.info}>{name}</Text>
+                                        </Pressable>
+                                    ))
+                            }
+                        </View>
+                    )
+                }
             </ScrollView>
         </>
     );

@@ -16,29 +16,42 @@ const styles = StyleSheet.create({
     },
     info: {
         color: "white",
-        fontSize: 16
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 5,
+        marginBottom: -5
     },
     button: {
-        backgroundColor: '#505050',
+        borderColor: '#505050',
+        borderWidth: 1,
         borderRadius: 5,
         margin: 5,
-        padding: 10
+        padding: 10,
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        maxWidth: '47%'
     },
     option: {
-        backgroundColor: 'gray',
+        borderColor: 'gray',
+        borderWidth: 1,
         marginHorizontal: 15,
-        marginRight: -5,
         borderRadius: 50,
         padding: 5,
         paddingHorizontal: 15
     },
     chosen: {
-        backgroundColor: 'green',
+        borderColor: 'green',
+        borderWidth: 1,
         marginHorizontal: 15,
-        marginRight: -5,
         borderRadius: 50,
         padding: 5,
         paddingHorizontal: 15
+    },
+    result: {
+        flexDirection: 'row',
+        flex: 1,
+        flexWrap: 'wrap',
+        justifyContent: 'center'
     }
 });
 

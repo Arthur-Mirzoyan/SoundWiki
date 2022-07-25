@@ -35,7 +35,7 @@ export default async function getItemsByName(name, type) {
     name = (name.trim()).replace(' ', '%20');
     let token = await getToken();
 
-    return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}`, {
+    return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=10`, {
         'method': 'GET',
         'headers': {
             'Content-Type': 'application/json',
