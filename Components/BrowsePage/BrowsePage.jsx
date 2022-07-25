@@ -143,7 +143,7 @@ const [gen,setGen] = useState('')
 
 }}>
 
-    <View  style = {{    
+    <View style = {{    
       margin: 10,
       borderRadius: 10,
       width: 157,
@@ -175,8 +175,8 @@ const [gen,setGen] = useState('')
     return(
       <NavigationContainer independent={true}> 
         <Stack.Navigator >
-          <Stack.Screen name='Home'component={_Screen} options={{headerStyle:{ backgroundColor:'#051622'}, headerTitleAlign:'center',headerTitleStyle:{fontSize:25,fontWeight:'bold',color:'#1BA098'},headerTintColor:'white'}}/>
-          <Stack.Screen name='genre' component={Genre} options={{headerStyle:{ backgroundColor:'#051622'},title:gen,headerTitleStyle:{fontSize:30,fontWeight:'bold',color:'#1BA098'},headerTitleAlign:'center', headerTintColor: 'white' }}/>
+          <Stack.Screen name='Home'component={_Screen} options={{headerStyle:{ backgroundColor:'#051622'}, headerTitleAlign:'center',headerTitleStyle:{fontSize:30,fontWeight:'bold',color:'#1BA098'},headerTintColor:'white'}}/>
+          <Stack.Screen name='genre' component={Genre} options={{headerStyle:{ backgroundColor:'#051622'},title:gen,headerTitleStyle:{fontSize:29,fontWeight:'bold',color:'#1BA098'},headerTitleAlign:'center', headerTintColor: 'white' }}/>
         </Stack.Navigator> 
       </NavigationContainer> 
     )
