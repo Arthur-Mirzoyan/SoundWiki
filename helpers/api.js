@@ -42,3 +42,17 @@ export async function getSpotifyArtistTopTracks(id) {
         }
     )
 }
+
+export async function getSpotifyArtistRelatedArtists(id) {
+    const token = await getSpotifyToken()
+
+    return axios(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
+            'method': 'GET',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token.data.access_token
+            }
+        }
+    )
+}

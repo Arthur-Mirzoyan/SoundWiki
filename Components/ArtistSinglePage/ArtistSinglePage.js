@@ -1,24 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, ImageBackground, View, Text, ScrollView} from 'react-native';
-import {getSpotifyArtist, getSpotifyArtistTopTracks} from "../../helpers/api";
+import {getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArtists} from "../../helpers/api";
 import {ReadMore} from "./ReadMore/ReadMore";
 import {Track} from "./Track/Track";
+import { RelatedArtist } from './RelatedArtist/RelatedArtist';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window')
 
-export function ArtistSinglePage() {
-    const id = '776Uo845nYHJpNaStv1Ds4' // 0k17h0D3J5VfsdmQ1iZtE9, 776Uo845nYHJpNaStv1Ds4
-
+export function ArtistSinglePage({id = '776Uo845nYHJpNaStv1Ds4'}) { // 0k17h0D3J5VfsdmQ1iZtE9, 776Uo845nYHJpNaStv1Ds4
     const [artist, setArtist] = useState({})
     const [topTracks, setTopTracks] = useState([])
+    const [relatedArtists, setRelatedArtists] = useState([])
 
     useEffect(() => {
         (async () => {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
+            const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
             setArtist(artist)
             setTopTracks(topTracks)
+            setRelatedArtists(relatedArtists)
         })()
     }, [])
 
@@ -42,10 +44,20 @@ export function ArtistSinglePage() {
                 <View style={styles.topTracksSection} >
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
-                        topTracks.slice(0, 5).map((track, index) =>
+                        topTracks?.slice(0, 5)?.map((track, index) =>
                             <Track item={track} index={index} key={track.id} />
                         )
                     }
+                </View>
+                <View style={styles.releasesSection}>
+                    <Text style={styles.releasesTitle}>Related artists:</Text>
+                    <ScrollView horizontal={true}>
+                        {
+                            relatedArtists?.map(artist =>
+                                <RelatedArtist item={artist} key={artist.id} />
+                            )
+                        }
+                    </ScrollView>
                 </View>
             </View>
         </ScrollView>
@@ -91,6 +103,14 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     topTracksTitle: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 10
+    },
+    releasesSection: {
+        marginTop: 20,
+    },
+    releasesTitle: {
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 10
