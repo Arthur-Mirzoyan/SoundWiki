@@ -1,11 +1,11 @@
 import React from 'react'
 import {StyleSheet, View, Pressable, Image, Text} from 'react-native'
 
-export function RelatedArtist({item}) {
+export function RelatedArtist({navigation, item}) {
     let image = item.images[item.images.length-2]
 
     return (
-        <Pressable>
+        <Pressable onPress={() => navigation.push('ArtistSingle', {id: item.id})}>
             <View style={styles.box}>
                 <Image style={styles.image} source={{uri: image.url}} />
                 <Text style={styles.name}>{truncate(item.name, 19)}</Text>

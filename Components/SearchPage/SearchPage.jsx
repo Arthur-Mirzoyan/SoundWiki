@@ -5,7 +5,7 @@ import { useState } from 'react';
 import getSpotifyItemsByName from '../../helpers/api';
 import styles from './style';
 
-export function SearchPage({ navigation }) {
+export function SearchPage({ navigation, route }) {
     const [artists, setArtists] = useState([])
     const [tracks, setTracks] = useState([])
 

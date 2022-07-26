@@ -8,7 +8,8 @@ import { RelatedArtist } from './RelatedArtist/RelatedArtist';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
 export function ArtistSinglePage({ navigation, route }) {
-    const id = route.params.id;
+    const id = route.params.id
+
     const [artist, setArtist] = useState({})
     const [topTracks, setTopTracks] = useState([])
     const [relatedArtists, setRelatedArtists] = useState([])
@@ -18,6 +19,8 @@ export function ArtistSinglePage({ navigation, route }) {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
+
+            navigation.setOptions({title: artist.name})
 
             setArtist(artist)
             setTopTracks(topTracks)
@@ -39,13 +42,13 @@ export function ArtistSinglePage({ navigation, route }) {
                         numberOfLines={1}
                         textStyle={styles.genresList}
                         readMoreStyle={styles.genresReadMore}>
-                        {artist.genres ?.join(', ')}
+                        {artist.genres?.join(', ')}
                     </ReadMore>
                 </View>
                 <View style={styles.topTracksSection} >
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
-                        topTracks ?.slice(0, 5) ?.map((track, index) =>
+                        topTracks?.slice(0, 5)?.map((track, index) =>
                             <Track item={track} index={index} key={track.id} />
                         )
                     }
@@ -54,8 +57,8 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.releasesTitle}>Related artists:</Text>
                     <ScrollView horizontal={true}>
                         {
-                            relatedArtists ?.map(artist =>
-                                <RelatedArtist item={artist} key={artist.id} />
+                            relatedArtists?.map(artist =>
+                                <RelatedArtist navigation={navigation} item={artist} key={artist.id} />
                             )
                         }
                     </ScrollView>
