@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
 
-async function getToken() {
+async function getSpotifyToken() {
     try {
         return await axios('https://accounts.spotify.com/api/token', {
             'method': 'POST',
             'headers': {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + (
-                    new Buffer('911cd286aff047ec9f775031b107ece2' + ':' + '0313f472c40c4bd79b55e89e95002f25').toString('base64')
-                )
+                'Authorization': 'Basic OTExY2QyODZhZmYwNDdlYzlmNzc1MDMxYjEwN2VjZTI6MDMxM2Y0NzJjNDBjNGJkNzliNTVlODllOTUwMDJmMjU='
             },
             data: 'grant_type=client_credentials'
         })
@@ -31,11 +29,56 @@ async function getArtistById(id) {
     )
 }
 
-export default async function getItemsByName(name, type) {
+export default async function getSpotifyItemsByName(name, type) {
     name = (name.trim()).replace(' ', '%20');
-    let token = await getToken();
+    let token = await getSpotifyToken();
 
-    return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=10`, {
+    try {
+        return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=10`, {
+            'method': 'GET',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token.data.access_token
+            }
+        })
+    }
+    catch (error) {
+        return
+    }
+}
+
+export async function getSpotifyArtist(id) {
+    const token = await getSpotifyToken()
+    console.log(`https://api.spotify.com/v1/artists/${id}`);
+    return axios(`https://api.spotify.com/v1/artists/${id}`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    })
+}
+
+export async function getSpotifyArtistTopTracks(id) {
+    const token = await getSpotifyToken()
+
+    return axios(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    }
+    )
+}
+
+export async function getSpotifyArtistRelatedArtists(id) {
+    const token = await getSpotifyToken()
+
+    return axios(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
         'method': 'GET',
         'headers': {
             'Content-Type': 'application/json',

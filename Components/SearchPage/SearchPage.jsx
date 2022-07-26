@@ -1,11 +1,11 @@
-import { Text, View, TextInput, Pressable, ScrollView, Image } from 'react-native';
-import styles from './style';
-import { useState } from 'react';
-import getItemsByName from '../../helpers/api';
 import React from 'react';
 import uuid from 'react-native-uuid';
+import { Text, View, TextInput, Pressable, ScrollView, Image } from 'react-native';
+import { useState } from 'react';
+import getSpotifyItemsByName from '../../helpers/api';
+import styles from './style';
 
-export function SearchPage() {
+export function SearchPage({ navigation }) {
     const NOT_FOUND = "https://teelindy.com/wp-content/uploads/2019/03/default_image.png";
 
     const [artists, setArtists] = useState([]);
@@ -37,38 +37,43 @@ export function SearchPage() {
 
                         if (text !== " " && text !== "") {
                             setOptionsShown(true);
-                            (async () => {
-                                let artistData = (await getItemsByName(text, "artist")).data.artists.items;
-                                for (let i in artistData) {
-                                    let info = artistData[i];
+                            try {
+                                (async () => {
+                                    let artistData = (await getSpotifyItemsByName(text, "artist")).data.artists.items;
+                                    for (let i in artistData) {
+                                        let info = artistData[i];
 
-                                    setArtists(artists => [...artists, info.name]);
-                                    setArtistsId(artistsId => [...artistsId, info.id]);
-                                    try {
-                                        let img = info.images[1].url;
-                                        setArtistsImg(artistsImg => [...artistsImg, img]);
-                                    }
-                                    catch (error) {
-                                        setArtistsImg(artistsImg => [...artistsImg, NOT_FOUND]);
+                                        setArtists(artists => [...artists, info.name]);
+                                        setArtistsId(artistsId => [...artistsId, info.id]);
+                                        try {
+                                            let img = info.images[1].url;
+                                            setArtistsImg(artistsImg => [...artistsImg, img]);
+                                        }
+                                        catch (error) {
+                                            setArtistsImg(artistsImg => [...artistsImg, NOT_FOUND]);
+                                        }
+
                                     }
 
-                                }
+                                    let trackData = (await getSpotifyItemsByName(text, "track")).data.tracks.items;
+                                    for (let i in trackData) {
+                                        let info = trackData[i];
 
-                                let trackData = (await getItemsByName(text, "track")).data.tracks.items;
-                                for (let i in trackData) {
-                                    let info = trackData[i];
-
-                                    setTracks(tracks => [...tracks, info.name]);
-                                    setTracksId(tracksId => [...tracksId, info.id]);
-                                    try {
-                                        let img = info.album.images[1].url;
-                                        setTracksImg(tracksImg => [...tracksImg, img]);
+                                        setTracks(tracks => [...tracks, info.name]);
+                                        setTracksId(tracksId => [...tracksId, info.id]);
+                                        try {
+                                            let img = info.album.images[1].url;
+                                            setTracksImg(tracksImg => [...tracksImg, img]);
+                                        }
+                                        catch (error) {
+                                            setTracksImg(tracksImg => [...tracksImg, NOT_FOUND]);
+                                        }
                                     }
-                                    catch (error) {
-                                        setTracksImg(tracksImg => [...tracksImg, NOT_FOUND]);
-                                    }
-                                }
-                            })();
+                                })();
+                            }
+                            catch (error) {
+                                return
+                            }
                         }
                         else setOptionsShown(false);
                     }}
@@ -97,7 +102,7 @@ export function SearchPage() {
                             {
                                 isShown ?
                                     artists.map((name, index) => (
-                                        <Pressable key={uuid.v4()} style={styles.button}>
+                                        <Pressable key={uuid.v4()} style={styles.button} onPress={() => navigation.navigate('ArtistSingle', { id: artistsId[index] })}>
                                             <View style={{ justifyContent: 'center' }}>
                                                 <Image style={{ width: 160, height: 160 }} source={{ uri: artistsImg[index] }} />
                                                 <Text style={styles.info}>{name}</Text>
