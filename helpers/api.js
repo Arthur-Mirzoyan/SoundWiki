@@ -49,8 +49,8 @@ export default async function getSpotifyItemsByName(name, type) {
 }
 
 export async function getSpotifyArtist(id) {
-    const token = await getSpotifyToken()
-    console.log(`https://api.spotify.com/v1/artists/${id}`);
+    const token = await getSpotifyToken();
+
     return axios(`https://api.spotify.com/v1/artists/${id}`, {
         'method': 'GET',
         'headers': {

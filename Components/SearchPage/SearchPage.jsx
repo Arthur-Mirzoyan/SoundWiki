@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import uuid from 'react-native-uuid';
 import { Text, View, TextInput, Pressable, ScrollView, Image } from 'react-native';
-import { useState } from 'react';
 import getSpotifyItemsByName from '../../helpers/api';
 import styles from './style';
 
@@ -18,6 +17,7 @@ export function SearchPage({ navigation }) {
 
     const [isShown, setIsShown] = useState(true);
     const [optionsShown, setOptionsShown] = useState(false);
+    const [prevSearch, setPrevSearch] = useState("");
 
     return (
         <>
@@ -26,7 +26,10 @@ export function SearchPage({ navigation }) {
                     style={styles.input}
                     placeholderTextColor="white"
                     placeholder=" Search artists or songs "
-                    onChangeText={(text) => {
+                    onEndEditing={(e) => {
+                        let text = e.nativeEvent.text;
+                        if (text.trim() === prevSearch.trim()) return;
+
                         setArtists([]);
                         setArtistsId([]);
                         setArtistsImg([]);
@@ -40,9 +43,10 @@ export function SearchPage({ navigation }) {
                             try {
                                 (async () => {
                                     let artistData = (await getSpotifyItemsByName(text, "artist")).data.artists.items;
+                                    let trackData = (await getSpotifyItemsByName(text, "track")).data.tracks.items;
+
                                     for (let i in artistData) {
                                         let info = artistData[i];
-
                                         setArtists(artists => [...artists, info.name]);
                                         setArtistsId(artistsId => [...artistsId, info.id]);
                                         try {
@@ -52,17 +56,14 @@ export function SearchPage({ navigation }) {
                                         catch (error) {
                                             setArtistsImg(artistsImg => [...artistsImg, NOT_FOUND]);
                                         }
-
                                     }
 
-                                    let trackData = (await getSpotifyItemsByName(text, "track")).data.tracks.items;
                                     for (let i in trackData) {
                                         let info = trackData[i];
-
                                         setTracks(tracks => [...tracks, info.name]);
                                         setTracksId(tracksId => [...tracksId, info.id]);
                                         try {
-                                            let img = info.album.images[1].url;
+                                            let img = info.album.images[1].url
                                             setTracksImg(tracksImg => [...tracksImg, img]);
                                         }
                                         catch (error) {
@@ -76,7 +77,9 @@ export function SearchPage({ navigation }) {
                             }
                         }
                         else setOptionsShown(false);
+                        setPrevSearch(text);
                     }}
+                    onPressIn={() => setOptionsShown(false)}
                 >
                 </TextInput>
 
