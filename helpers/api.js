@@ -20,7 +20,7 @@ export default async function getSpotifyItemsByName(name, type) {
     const token = await getSpotifyToken();
 
     try {
-        return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=10`, {
+        return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=20`, {
             'method': 'GET',
             'headers': {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export async function getSpotifyArtistRelatedArtists(id) {
 export async function getSpotifyArtistAlbums(id) {
     const token = await getSpotifyToken();
 
-    return axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=single%2Cappears_on&limit=10`, {
+    return axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=single%2Cappears_on&limit=25`, {
         'method': 'GET',
         'headers': {
             'Content-Type': 'application/json',

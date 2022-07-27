@@ -4,28 +4,19 @@ const styles = StyleSheet.create({
     box: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10,
-        marginLeft: 3
-    },
-    topPositionBox: {
-        width: '6%'
-    },
-    topPositionText: {
-        fontSize: 22
+        marginLeft: 5,
+        marginBottom: 7
     },
     albumImage: {
-        width: 64,
-        height: 64
+        width: 100,
+        height: 100,
+        marginRight: 5
     },
-    trackInfoBox: {
-        flexDirection: 'column',
-        marginLeft: 7
-    },
-    trackNameText: {
-        fontSize: 20
-    },
-    trackDurationText: {
-        fontSize: 17
+    albumNameText: {
+        fontSize: 18,
+        flex: 1,
+        flexWrap: 'wrap',
+        padding: 10
     }
 });
 
