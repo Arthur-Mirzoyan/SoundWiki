@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Buffer } from 'buffer';
 
 async function getSpotifyToken() {
     try {
@@ -36,7 +35,7 @@ export default async function getSpotifyItemsByName(name, type) {
 }
 
 export async function getSpotifyArtist(id) {
-    const token = await getSpotifyToken()
+    const token = await getSpotifyToken();
 
     return axios(`https://api.spotify.com/v1/artists/${id}`, {
         'method': 'GET',
@@ -58,12 +57,11 @@ export async function getSpotifyArtistTopTracks(id) {
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token.data.access_token
         }
-    }
-    )
+    })
 }
 
 export async function getSpotifyArtistRelatedArtists(id) {
-    const token = await getSpotifyToken()
+    const token = await getSpotifyToken();
 
     return axios(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
         'method': 'GET',
@@ -72,6 +70,18 @@ export async function getSpotifyArtistRelatedArtists(id) {
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token.data.access_token
         }
-    }
-    )
+    })
+}
+
+export async function getSpotifyArtistAlbums(id) {
+    const token = await getSpotifyToken();
+
+    return axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=single%2Cappears_on&limit=10`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    })
 }

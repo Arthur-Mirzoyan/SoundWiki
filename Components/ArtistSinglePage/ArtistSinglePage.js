@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, ImageBackground, View, Text, ScrollView } from 'react-native';
-import { getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArtists } from "../../helpers/api";
+import { getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArtists, getSpotifyArtistAlbums } from "../../helpers/api";
 import { ReadMore } from "./ReadMore/ReadMore";
 import { Track } from "./Track/Track";
 import { RelatedArtist } from './RelatedArtist/RelatedArtist';
+import { Album } from './Album/Album';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
@@ -12,18 +13,21 @@ export function ArtistSinglePage({ navigation, route }) {
 
     const [artist, setArtist] = useState({})
     const [topTracks, setTopTracks] = useState([])
+    const [albums, setAlbums] = useState([])
     const [relatedArtists, setRelatedArtists] = useState([])
 
     useEffect(() => {
         (async () => {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
+            const albums = (await getSpotifyArtistAlbums(id)).data.items
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
-            navigation.setOptions({title: artist.name})
+            navigation.setOptions({ title: artist.name })
 
             setArtist(artist)
             setTopTracks(topTracks)
+            setAlbums(albums);
             setRelatedArtists(relatedArtists)
         })()
     }, [])
@@ -42,22 +46,31 @@ export function ArtistSinglePage({ navigation, route }) {
                         numberOfLines={1}
                         textStyle={styles.genresList}
                         readMoreStyle={styles.genresReadMore}>
-                        {artist.genres?.join(', ')}
+                        {artist.genres ?.join(', ')}
                     </ReadMore>
                 </View>
                 <View style={styles.topTracksSection} >
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
-                        topTracks?.slice(0, 5)?.map((track, index) =>
+                        topTracks ?.slice(0, 5) ?.map((track, index) =>
                             <Track item={track} index={index} key={track.id} />
                         )
                     }
                 </View>
+
+                <View>
+                    <Text>Albums</Text>
+                    {
+                        albums ?.slice(0, 5) ?.map((album, index) =>
+                            <Album item={album} index={index} key={album.id} />)
+                    }
+                </View>
+
                 <View style={styles.releasesSection}>
                     <Text style={styles.releasesTitle}>Related artists:</Text>
                     <ScrollView horizontal={true}>
                         {
-                            relatedArtists?.map(artist =>
+                            relatedArtists ?.map(artist =>
                                 <RelatedArtist navigation={navigation} item={artist} key={artist.id} />
                             )
                         }
