@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BrowsePage} from './Components/BrowsePage/BrowsePage';
 import {SearchStack} from './Components/Stacks/SearchStack';
-import {Button} from "react-native";
 
 const Tab = createBottomTabNavigator()
 
