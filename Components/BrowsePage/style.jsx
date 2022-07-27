@@ -6,10 +6,11 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        borderTopColor:'#ffffff',
-        borderWidth:1 ,
-        paddingTop:10,
-        paddingBottom:10 
+        borderTopColor: '#ffffff',
+        borderBottomColor: '#ffffff',
+        borderWidth: 1,
+        paddingTop: 10,
+        paddingBottom: 10
     },
     imageBox: {
         display: 'flex',

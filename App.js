@@ -10,8 +10,8 @@ export default function App() {
     return (
         <NavigationContainer>
             <Tab.Navigator screenOptions={{tabBarHideOnKeyboard: true}}>
-                <Tab.Screen name="TabBrowse" options={{headerShown: false}} component={BrowseStack}/>
-                <Tab.Screen name="TabSearch" options={{headerShown: false}} component={SearchStack}/>
+                <Tab.Screen name="TabBrowse" options={{title: 'Browse', headerShown: false}} component={BrowseStack}/>
+                <Tab.Screen name="TabSearch" options={{title: 'Search', headerShown: false}} component={SearchStack}/>
             </Tab.Navigator>
         </NavigationContainer>
     );
