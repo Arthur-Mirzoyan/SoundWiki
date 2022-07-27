@@ -6,14 +6,13 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        backgroundColor:'#051622',
-        borderTopColor:'#1BA098',
+        borderTopColor:'#ffffff',
         borderWidth:1 ,
         paddingTop:10,
         paddingBottom:10 
     },
     imageBox: {
-        displayd: 'flex',
+        display: 'flex',
         justifyContent: 'flex-end',
         position: 'absolute',
         right: 0,
