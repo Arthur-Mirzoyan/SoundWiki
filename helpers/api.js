@@ -49,7 +49,7 @@ export async function getSpotifyRecommendations(genres) {
 }
 
 export async function getSpotifyArtist(id) {
-    const token = await getSpotifyToken()
+    const token = await getSpotifyToken();
 
     return axios(`https://api.spotify.com/v1/artists/${id}`, {
         'method': 'GET',
