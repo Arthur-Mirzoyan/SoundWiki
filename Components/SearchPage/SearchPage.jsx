@@ -1,121 +1,65 @@
 import React, { useState } from 'react';
 import uuid from 'react-native-uuid';
-import { Text, View, TextInput, Pressable, ScrollView, Image } from 'react-native';
+import { Text, View, TextInput, Pressable, ScrollView, Image, Appearance } from 'react-native';
 import getSpotifyItemsByName from '../../helpers/api';
 import styles from './style';
 
 export function SearchPage({ navigation }) {
-    const NOT_FOUND = "https://teelindy.com/wp-content/uploads/2019/03/default_image.png";
+    const [artists, setArtists] = useState([])
+    const [tracks, setTracks] = useState([])
 
-    const [artists, setArtists] = useState([]);
-    const [artistsId, setArtistsId] = useState([]);
-    const [artistsImg, setArtistsImg] = useState([]);
-
-    const [tracks, setTracks] = useState([]);
-    const [tracksId, setTracksId] = useState([]);
-    const [tracksImg, setTracksImg] = useState([]);
-
-    const [isShown, setIsShown] = useState(true);
-    const [optionsShown, setOptionsShown] = useState(false);
-    const [prevSearch, setPrevSearch] = useState("");
+    const [areArtistsShown, setArtistsShown] = useState(true);
+    const [areOptionsShown, setOptionsShown] = useState(false);
+    const colorScheme = Appearance.getColorScheme();
 
     return (
         <>
-            <View style={{ backgroundColor: '#101010', paddingBottom: 7 }}>
+            <View style={{ paddingBottom: 7 }}>
                 <TextInput
                     style={styles.input}
-                    placeholderTextColor="white"
+                    placeholderTextColor={colorScheme === 'light' ? 'black' : 'white'}
                     placeholder=" Search artists or songs "
-                    onEndEditing={(e) => {
-                        let text = e.nativeEvent.text;
-                        if (text.trim() === prevSearch.trim()) return;
-
-                        setArtists([]);
-                        setArtistsId([]);
-                        setArtistsImg([]);
-
-                        setTracks([]);
-                        setTracksId([]);
-                        setTracksImg([]);
-
-                        if (text !== " " && text !== "") {
-                            setOptionsShown(true);
-                            try {
-                                (async () => {
-                                    let artistData = (await getSpotifyItemsByName(text, "artist")).data.artists.items;
-                                    let trackData = (await getSpotifyItemsByName(text, "track")).data.tracks.items;
-
-                                    for (let i in artistData) {
-                                        let info = artistData[i];
-                                        setArtists(artists => [...artists, info.name]);
-                                        setArtistsId(artistsId => [...artistsId, info.id]);
-                                        try {
-                                            let img = info.images[1].url;
-                                            setArtistsImg(artistsImg => [...artistsImg, img]);
-                                        }
-                                        catch (error) {
-                                            setArtistsImg(artistsImg => [...artistsImg, NOT_FOUND]);
-                                        }
-                                    }
-
-                                    for (let i in trackData) {
-                                        let info = trackData[i];
-                                        setTracks(tracks => [...tracks, info.name]);
-                                        setTracksId(tracksId => [...tracksId, info.id]);
-                                        try {
-                                            let img = info.album.images[1].url
-                                            setTracksImg(tracksImg => [...tracksImg, img]);
-                                        }
-                                        catch (error) {
-                                            setTracksImg(tracksImg => [...tracksImg, NOT_FOUND]);
-                                        }
-                                    }
-                                })();
-                            }
-                            catch (error) {
-                                return
-                            }
-                        }
-                        else setOptionsShown(false);
-                        setPrevSearch(text);
-                    }}
-                    onPressIn={() => setOptionsShown(false)}
-                >
-                </TextInput>
-
+                    onChangeText={(text) => {
+                        handleInputChange(text, setOptionsShown, setArtists, setTracks)
+                    }} />
                 {
-                    optionsShown && (
+                    areOptionsShown && (
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Pressable style={isShown ? styles.chosen : styles.option} onPress={() => setIsShown(true)}>
-                                <Text style={{ color: 'white' }}>Artists</Text>
+                            <Pressable style={areArtistsShown ? styles.chosen : styles.option} onPress={() => setArtistsShown(true)}>
+                                <Text>Artists</Text>
                             </Pressable>
-                            <Pressable style={!isShown ? styles.chosen : styles.option} onPress={() => setIsShown(false)}>
-                                <Text style={{ color: 'white' }}>Tracks</Text>
+                            <Pressable style={!areArtistsShown ? styles.chosen : styles.option} onPress={() => setArtistsShown(false)}>
+                                <Text>Tracks</Text>
                             </Pressable>
                         </View>
                     )
                 }
-
             </View>
 
             <ScrollView style={styles.view}>
                 {
-                    optionsShown && (
+                    areOptionsShown && (
                         <View style={styles.result}>
                             {
-                                isShown ?
-                                    artists.map((name, index) => (
-                                        <Pressable key={uuid.v4()} style={styles.button} onPress={() => navigation.navigate('ArtistSingle', { id: artistsId[index] })}>
+                                areArtistsShown ?
+                                    artists.map((artist) => (
+                                        <Pressable key={uuid.v4()} style={styles.button} onPress={() => { navigation.navigate('ArtistSingle', { id: artist.id }) }}>
                                             <View style={{ justifyContent: 'center' }}>
-                                                <Image style={{ width: 160, height: 160 }} source={{ uri: artistsImg[index] }} />
-                                                <Text style={styles.info}>{name}</Text>
+                                                <Image
+                                                    style={{ width: 160, height: 160 }}
+                                                    source={artist.images ? { uri: artist.images[artist.images.length - 2] ?.url } : null}
+                                                />
+                                                <Text style={styles.info}>{artist.name}</Text>
                                             </View>
                                         </Pressable>
                                     )) :
-                                    tracks.map((name, index) => (
+                                    tracks.map((track) => (
                                         <Pressable key={uuid.v4()} style={styles.button}>
-                                            <Image style={{ width: 160, height: 160 }} source={{ uri: tracksImg[index] }} />
-                                            <Text style={styles.info}>{name}</Text>
+                                            <Image
+                                                style={{ width: 160, height: 160 }}
+                                                source={track.album.images ? { uri: track.album.images[track.album.images.length - 2] ?.url } : null}
+                                            />
+                                            <Text style={styles.info}>{track.name}</Text>
                                         </Pressable>
                                     ))
                             }
@@ -125,4 +69,23 @@ export function SearchPage({ navigation }) {
             </ScrollView>
         </>
     );
+}
+
+function handleInputChange(text, setOptionsShown, setArtists, setTracks) {
+    if (text === '') {
+        setOptionsShown(false)
+        return
+    }
+
+    setOptionsShown(true);
+    try {
+        (async () => {
+            let artistData = (await getSpotifyItemsByName(text, "artist")).data.artists.items;
+            setArtists(artistData)
+
+            let trackData = (await getSpotifyItemsByName(text, "track")).data.tracks.items;
+            setTracks(trackData)
+        })();
+    }
+    catch (error) { }
 }

@@ -5,15 +5,15 @@ import { ArtistSinglePage } from '../ArtistSinglePage/ArtistSinglePage';
 
 const Stack = createNativeStackNavigator();
 
-const SearchStack = () => {
+export function SearchStack() {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-                name="SearchPage"
-                component={SearchPage}
-            />
-            <Stack.Screen name="ArtistSingle" component={ArtistSinglePage} />
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen options={{ title: 'Search' }} name="SearchPage" component={SearchPage} />
+            <Stack.Screen options={{ title: 'Artist' }} name="ArtistSingle" component={ArtistSinglePage} />
         </Stack.Navigator>
-    );
-};
-export default SearchStack;
+    )
+}
+
+const screenOptions = {
+    headerBackVisible: true
+}

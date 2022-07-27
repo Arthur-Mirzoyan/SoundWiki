@@ -15,23 +15,10 @@ async function getSpotifyToken() {
         alert(error);
     }
 }
-async function getArtistById(id) {
-    let token = await getToken();
-
-    return await axios(`https://api.spotify.com/v1/artists/${id}`, {
-        'method': 'GET',
-        'headers': {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token.data.access_token
-        }
-    }
-    )
-}
 
 export default async function getSpotifyItemsByName(name, type) {
-    name = (name.trim()).replace(' ', '%20');
-    let token = await getSpotifyToken();
+    name = name.trim().replace(' ', '+');
+    const token = await getSpotifyToken();
 
     try {
         return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=10`, {
