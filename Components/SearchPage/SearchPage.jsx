@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import uuid from 'react-native-uuid';
 import { Text, View, TextInput, Pressable, ScrollView, Image, Appearance } from 'react-native';
 import getSpotifyItemsByName from '../../helpers/api';
-import styles from './style';
+import {styles} from './style';
 
 export function SearchPage({ navigation }) {
     const [artists, setArtists] = useState([])

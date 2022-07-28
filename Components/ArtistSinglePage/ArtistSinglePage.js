@@ -4,7 +4,7 @@ import { getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArt
 import { ReadMore } from "./ReadMore/ReadMore";
 import { Track } from "./Track/Track";
 import { RelatedArtist } from './RelatedArtist/RelatedArtist';
-import Album from '../Album/Album'
+import {Album} from '../Album/Album'
 import styles from './style';
 import {distinctBy} from "../../helpers/arrayUtils";
 
@@ -21,13 +21,14 @@ export function ArtistSinglePage({ navigation, route }) {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
             const albums = await getSpotifyArtistAlbumResults(id, 5)
+            console.log(albums.length)
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
             navigation.setOptions({ title: artist.name })
 
             setArtist(artist)
             setTopTracks(topTracks)
-            setAlbums(albums);
+            setAlbums(albums)
             setRelatedArtists(relatedArtists)
         })()
     }, [])
@@ -64,7 +65,7 @@ export function ArtistSinglePage({ navigation, route }) {
                         distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
                             <Album item={album} index={index} key={album.id} />)
                     }
-                    <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumSingle', { albums: albums })}>
+                    <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumList', { artistId: artist.id })}>
                         <Text style={styles.showAll}>Show All Albums</Text>
                     </Pressable>
                 </View>

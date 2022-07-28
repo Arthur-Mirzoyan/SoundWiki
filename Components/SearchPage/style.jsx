@@ -1,8 +1,7 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     view: {
-        // backgroundColor: "#101010",
         flex: 1
     },
     input: {
@@ -12,10 +11,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
         borderRadius: 10,
         padding: 5,
-        // color: 'black'
     },
     info: {
-        // color: "white",
         fontSize: 18,
         textAlign: 'center',
         marginTop: 5,
@@ -53,5 +50,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 });
-
-export default styles;

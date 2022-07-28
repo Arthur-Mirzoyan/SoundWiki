@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BrowsePage} from '../BrowsePage/BrowsePage';
-import {GenrePage} from '../GenrePage/GenrePage'
 import {ArtistSinglePage} from "../ArtistSinglePage/ArtistSinglePage";
 import { AlbumListPage } from '../AlbumListPage/AlbumListPage';
+import {GenrePage} from "../GenrePage/GenrePage";
 
 const Stack = createNativeStackNavigator();
 
