@@ -34,7 +34,8 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 150,
         height: 155,
-        margin: 10
+        margin: 10,
+        borderRadius: 5
     },
     header: {
         height: 20,

@@ -12,7 +12,6 @@ export function AlbumListPage({ navigation, route }) {
     useEffect(() => {
         (async () => {
             const albums = await getSpotifyArtistAlbumResults(artistId)
-            console.log(albums.length)
 
             setAlbums(albums)
         })()

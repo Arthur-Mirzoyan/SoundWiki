@@ -4,9 +4,10 @@ import { getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArt
 import { ReadMore } from "./ReadMore/ReadMore";
 import { Track } from "./Track/Track";
 import { RelatedArtist } from './RelatedArtist/RelatedArtist';
-import {Album} from '../Album/Album'
+import { Album } from '../Album/Album'
 import styles from './style';
-import {distinctBy} from "../../helpers/arrayUtils";
+import { distinctBy } from "../../helpers/arrayUtils";
+import { capitalise } from '../../helpers/textUtils';
 
 export function ArtistSinglePage({ navigation, route }) {
     const id = route.params.id
@@ -21,7 +22,6 @@ export function ArtistSinglePage({ navigation, route }) {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
             const albums = await getSpotifyArtistAlbumResults(id, 5)
-            console.log(albums.length)
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
             navigation.setOptions({ title: artist.name })
@@ -47,22 +47,22 @@ export function ArtistSinglePage({ navigation, route }) {
                         numberOfLines={1}
                         textStyle={styles.genresList}
                         readMoreStyle={styles.genresReadMore}>
-                        {artist.genres ?.join(', ')}
+                        {artist.genres ? capitalise(artist.genres?.join(', ')) : null}
                     </ReadMore>
                 </View>
                 <View style={styles.topTracksSection} >
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
-                        topTracks ?.slice(0, 5) ?.map((track, index) =>
+                        topTracks?.slice(0, 5)?.map((track, index) =>
                             <Track item={track} index={index} key={track.id} />
                         )
                     }
                 </View>
 
-                <View>
+                <View style={{ marginTop: 20 }}>
                     <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Albums:</Text>
                     {
-                        distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
+                        distinctBy(albums, item => item.name)?.slice(0, 5)?.map((album, index) =>
                             <Album item={album} index={index} key={album.id} />)
                     }
                     <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumList', { artistId: artist.id })}>
@@ -74,7 +74,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.releasesTitle}>Related artists:</Text>
                     <ScrollView horizontal={true}>
                         {
-                            relatedArtists ?.map(artist =>
+                            relatedArtists?.map(artist =>
                                 <RelatedArtist navigation={navigation} item={artist} key={artist.id} />
                             )
                         }

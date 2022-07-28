@@ -54,7 +54,6 @@ export async function getSpotifyArtistAlbumResults(id, limit = -1) {
 
         next = data.next
         resultItems.push(...data.items)
-        console.log(next)
     } while (next !== null && (limit === -1 || resultItems.length < limit))
 
     return resultItems
