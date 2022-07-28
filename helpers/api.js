@@ -54,11 +54,29 @@ export async function getSpotifyArtistAlbumResults(id, limit = -1) {
 
         next = data.next
         resultItems.push(...data.items)
-        console.log(next)
     } while (next !== null && (limit === -1 || resultItems.length < limit))
 
     return resultItems
 }
+
+export async function getSpotifyAlbumAndResults(id, limit = -1) {
+    const token = await getSpotifyToken()
+
+    const album = (await makeSpotifyRequest(`https://api.spotify.com/v1/albums/${id}?market=US`, token)).data
+    const tracks = [...album.tracks.items]
+
+    let next = album.tracks.next
+    while (next !== null && (limit === -1 || tracks.length < limit)) {
+        const data = (await makeSpotifyRequest(next, token)).data
+
+        next = data.next
+        tracks.push(...data.items)
+    }
+
+    return [album, tracks]
+}
+
+
 
 
 async function makeSpotifyRequest(url, token, method = 'GET') {

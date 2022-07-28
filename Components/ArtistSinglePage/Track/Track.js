@@ -12,7 +12,7 @@ export function Track({ item, index }) {
     return (
         <View style={styles.box}>
             <View style={styles.topPositionBox}>
-                <Text style={styles.topPositionText}>{index + 1}</Text>
+                <Text style={styles.topPosition}>{index}</Text>
             </View>
             <Image style={styles.albumImage} source={{ uri: image.url }} />
             <View style={styles.trackInfoBox}>

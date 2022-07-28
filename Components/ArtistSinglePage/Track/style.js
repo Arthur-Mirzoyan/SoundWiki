@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     topPositionBox: {
         width: '6%'
     },
-    topPositionText: {
+    topPosition: {
         fontSize: 22
     },
     albumImage: {

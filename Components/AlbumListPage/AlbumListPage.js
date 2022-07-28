@@ -12,7 +12,8 @@ export function AlbumListPage({ navigation, route }) {
     useEffect(() => {
         (async () => {
             const albums = await getSpotifyArtistAlbumResults(artistId)
-            console.log(albums.length)
+
+            navigation.setOptions({title: `${albums[0].artists[0].name} albums`})
 
             setAlbums(albums)
         })()
@@ -22,7 +23,7 @@ export function AlbumListPage({ navigation, route }) {
         <ScrollView style={{ marginLeft: 10, marginTop: 10 }}>
             {
                 distinctBy(albums, item => item.name)?.map((album, index) =>
-                    <Album item={album} index={index} key={album.id} />
+                    <Album navigation={navigation} item={album} key={album.id} />
                 )
             }
         </ScrollView>

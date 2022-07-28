@@ -21,7 +21,6 @@ export function ArtistSinglePage({ navigation, route }) {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
             const albums = await getSpotifyArtistAlbumResults(id, 5)
-            console.log(albums.length)
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
             navigation.setOptions({ title: artist.name })
@@ -54,7 +53,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
                         topTracks ?.slice(0, 5) ?.map((track, index) =>
-                            <Track item={track} index={index} key={track.id} />
+                            <Track item={track} index={index + 1} key={track.id} />
                         )
                     }
                 </View>
@@ -63,7 +62,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Albums:</Text>
                     {
                         distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
-                            <Album item={album} index={index} key={album.id} />)
+                            <Album navigation={navigation} item={album} key={album.id} />)
                     }
                     <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumList', { artistId: artist.id })}>
                         <Text style={styles.showAll}>Show All Albums</Text>
