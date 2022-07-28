@@ -21,7 +21,7 @@ export function AlbumListPage({ navigation, route }) {
         <ScrollView style={{ marginLeft: 10, marginTop: 10 }}>
             {
                 distinctBy(albums, item => item.name)?.map((album, index) =>
-                    <Album item={album} index={index} key={album.id} />
+                    <Album item={album} key={album.id} />
                 )
             }
         </ScrollView>

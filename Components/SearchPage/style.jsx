@@ -50,7 +50,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         flexWrap: 'wrap',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+    image: {
+        width: 160,
+        height: 160,
+        borderRadius: 10
     }
 });
 

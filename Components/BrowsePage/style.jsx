@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
         textDecorationStyle: "solid",
         textDecorationColor: "#000",
         marginTop: 10,
-        color: '#FEFEFE',
+        color: '#4a4a4a',
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center'
