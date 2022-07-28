@@ -1,5 +1,6 @@
 import React from 'react'
 import {StyleSheet, View, Pressable, Image, Text} from 'react-native'
+import { truncateText } from '../../../helpers/textUtils';
 
 export function RelatedArtist({navigation, item}) {
     let image = item.images[item.images.length-2]
@@ -8,18 +9,10 @@ export function RelatedArtist({navigation, item}) {
         <Pressable onPress={() => navigation.push('ArtistSingle', {id: item.id})}>
             <View style={styles.box}>
                 <Image style={styles.image} source={{uri: image.url}} />
-                <Text style={styles.name}>{truncate(item.name, 19)}</Text>
+                <Text style={styles.name}>{truncateText(item.name, 19)}</Text>
             </View>
         </Pressable>
     )
-}
-
-function truncate(text, symbolCount) {
-    if (text.length <= symbolCount) {
-        return text
-    }
-
-    return text.substring(0, symbolCount-3)+'...'
 }
 
 const styles = StyleSheet.create({

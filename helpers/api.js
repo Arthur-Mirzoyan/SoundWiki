@@ -34,6 +34,19 @@ export default async function getSpotifyItemsByName(name, type) {
     }
 }
 
+export async function getSpotifyRecommendations(genres) {
+    const token = await getSpotifyToken()
+
+    return axios(`https://api.spotify.com/v1/recommendations?market=US&&seed_genres=${genres.join('%2C')}`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    })
+}
+
 export async function getSpotifyArtist(id) {
     const token = await getSpotifyToken();
 
@@ -73,15 +86,25 @@ export async function getSpotifyArtistRelatedArtists(id) {
     })
 }
 
-export async function getSpotifyArtistAlbums(id) {
+export async function getSpotifyArtistAlbumResults(id) {
     const token = await getSpotifyToken();
 
-    return axios(`https://api.spotify.com/v1/artists/${id}/albums`, {
-        'method': 'GET',
-        'headers': {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token.data.access_token
-        }
-    })
+    const result = []
+
+    while (true) {
+        const items = (await axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=single%2Cappears_on&limit=25`, {
+            'method': 'GET',
+            'headers': {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token.data.access_token
+            }
+        })).data.items
+
+        result.push(items)
+
+        if (items.length < 20) break
+    }
+    
+    return result
 }
