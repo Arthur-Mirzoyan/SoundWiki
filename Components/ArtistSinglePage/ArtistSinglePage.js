@@ -9,6 +9,8 @@ import styles from './style';
 import { distinctBy } from "../../helpers/arrayUtils";
 import { capitalise } from '../../helpers/textUtils';
 
+const NOT_FOUND = "https://teelindy.com/wp-content/uploads/2019/03/default_image.png";
+
 export function ArtistSinglePage({ navigation, route }) {
     const id = route.params.id
 
@@ -35,7 +37,7 @@ export function ArtistSinglePage({ navigation, route }) {
 
     return (
         <ScrollView>
-            <ImageBackground style={styles.avatar} source={artist.images ? { uri: artist.images[0].url } : null}>
+            <ImageBackground style={styles.avatar} source={artist?.images?.at(0)?.url ? { uri: artist.images[0].url } : null}>
                 <View style={styles.nameBox}>
                     <Text style={styles.name}>{artist.name}</Text>
                 </View>
@@ -54,7 +56,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
                         topTracks?.slice(0, 5)?.map((track, index) =>
-                            <Track item={track} index={index} key={track.id} />
+                            <Track item={track} index={index+1} key={track.id} />
                         )
                     }
                 </View>
@@ -63,7 +65,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Albums:</Text>
                     {
                         distinctBy(albums, item => item.name)?.slice(0, 5)?.map((album, index) =>
-                            <Album item={album} index={index} key={album.id} />)
+                            <Album navigation={navigation} item={album} index={index} key={album.id} />)
                     }
                     <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumList', { artistId: artist.id })}>
                         <Text style={styles.showAll}>Show All Albums</Text>

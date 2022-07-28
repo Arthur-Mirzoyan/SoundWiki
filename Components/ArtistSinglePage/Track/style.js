@@ -8,14 +8,15 @@ const styles = StyleSheet.create({
         marginLeft: 3
     },
     topPositionBox: {
-        width: '6%'
+        width: '7%'
     },
     topPosition: {
         fontSize: 22
     },
     albumImage: {
         width: 64,
-        height: 64
+        height: 64,
+        borderRadius: 5
     },
     trackInfoBox: {
         flexDirection: 'column',

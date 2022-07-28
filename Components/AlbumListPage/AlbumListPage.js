@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollView } from 'react-native';
-import { getSpotifyArtistAlbumResults } from '../../helpers/api';
+import {getSpotifyArtist, getSpotifyArtistAlbumResults} from '../../helpers/api';
 import {Album} from '../Album/Album'
 import {distinctBy} from "../../helpers/arrayUtils";
 
@@ -11,9 +11,10 @@ export function AlbumListPage({ navigation, route }) {
 
     useEffect(() => {
         (async () => {
+            const artist = (await getSpotifyArtist(artistId)).data
             const albums = await getSpotifyArtistAlbumResults(artistId)
 
-            navigation.setOptions({title: `${albums[0].artists[0].name} albums`})
+            navigation.setOptions({title: `${artist.name} albums`})
 
             setAlbums(albums)
         })()

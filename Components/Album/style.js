@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     albumImage: {
         width: 100,
         height: 100,
+        borderRadius: 7,
         marginRight: 5
     },
     albumNameText: {

@@ -8,7 +8,7 @@ export function RelatedArtist({ navigation, item }) {
     return (
         <Pressable onPress={() => navigation.push('ArtistSingle', { id: item.id })}>
             <View style={styles.box}>
-                <Image style={styles.image} source={{ uri: image.url }} />
+                <Image style={styles.image} source={image?.url ? { uri: image.url } : null} />
                 <Text style={styles.name}>{truncateText(item.name, 19)}</Text>
             </View>
         </Pressable>

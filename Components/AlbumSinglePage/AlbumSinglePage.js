@@ -33,7 +33,7 @@ export function AlbumSinglePage({navigation, route}) {
                 <View style={styles.infoBox}>
                     <Image style={styles.cover} source={album.images ? {uri: album.images[0].url} : null}/>
                     <Text style={styles.name}>{album.name}</Text>
-                    <Text style={styles.artists}>{album?.artists?.map(artist => artist.name)?.join(', ')}</Text>
+                    <Text style={styles.artists}>{album?.artists?.map(artist => {console.log(artist.name); return artist.name })?.join(', ')}</Text>
                     <Text style={styles.info}>{year} · {album.total_tracks} tracks</Text>
                 </View>
                 <View style={styles.trackBox}>
