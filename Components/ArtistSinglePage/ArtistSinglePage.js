@@ -6,6 +6,7 @@ import { Track } from "./Track/Track";
 import { RelatedArtist } from './RelatedArtist/RelatedArtist';
 import Album from '../Album/Album'
 import styles from './style';
+import {distinctBy} from "../../helpers/arrayUtils";
 
 export function ArtistSinglePage({ navigation, route }) {
     const id = route.params.id
@@ -81,19 +82,4 @@ export function ArtistSinglePage({ navigation, route }) {
             </View>
         </ScrollView>
     )
-}
-
-function distinctBy(array, predicate) {
-    const conditions = []
-    const result = []
-
-    for (let item of array) {
-        let condition = predicate(item)
-        if (!conditions.includes(condition)) {
-            conditions.push(condition)
-            result.push(item)
-        }
-    }
-
-    return result;
 }
