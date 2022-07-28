@@ -45,13 +45,13 @@ export function ArtistSinglePage({ navigation, route }) {
                         numberOfLines={1}
                         textStyle={styles.genresList}
                         readMoreStyle={styles.genresReadMore}>
-                        {artist.genres?.join(', ')}
+                        {artist.genres ?.join(', ')}
                     </ReadMore>
                 </View>
                 <View style={styles.topTracksSection} >
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
-                        topTracks?.slice(0, 5)?.map((track, index) =>
+                        topTracks ?.slice(0, 5) ?.map((track, index) =>
                             <Track item={track} index={index} key={track.id} />
                         )
                     }
@@ -60,10 +60,10 @@ export function ArtistSinglePage({ navigation, route }) {
                 <View>
                     <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Albums:</Text>
                     {
-                        [...new Map(albums.map(item => [item.name, item])).values()]?.slice(0, 5)?.map((album, index) =>
-                            <Album item={album} index={index} key={album.id} />)
+                        distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
+                            <Album item={album} index={index} key={album.id}/>)
                     }
-                    <Pressable style={{ marginLeft: 25, marginTop: 10 }} onPressIn={() => navigation.navigate('AlbumSingle', { albums: albums })}>
+                    <Pressable style={{ marginLeft: 25, marginTop: 10 }} onPressIn={() => navigation.push('AlbumSingle', { albums: albums })}>
                         <Text>Show All Albums</Text>
                     </Pressable>
                 </View>
@@ -72,7 +72,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.releasesTitle}>Related artists:</Text>
                     <ScrollView horizontal={true}>
                         {
-                            relatedArtists?.map(artist =>
+                            relatedArtists ?.map(artist =>
                                 <RelatedArtist navigation={navigation} item={artist} key={artist.id} />
                             )
                         }
@@ -81,4 +81,19 @@ export function ArtistSinglePage({ navigation, route }) {
             </View>
         </ScrollView>
     )
+}
+
+function distinctBy(array, predicate) {
+    const conditions = []
+    const result = []
+
+    for (let item of array) {
+        let condition = predicate(item)
+        if (!conditions.includes(condition)) {
+            conditions.push(condition)
+            result.push(item)
+        }
+    }
+
+    return result;
 }
