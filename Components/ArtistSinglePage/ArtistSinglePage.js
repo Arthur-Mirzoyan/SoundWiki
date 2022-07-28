@@ -61,10 +61,10 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Albums:</Text>
                     {
                         distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
-                            <Album item={album} index={index} key={album.id}/>)
+                            <Album item={album} index={index} key={album.id} />)
                     }
-                    <Pressable style={{ marginLeft: 25, marginTop: 10 }} onPress={() => navigation.push('AlbumList', {artistId: artist.id})}>
-                        <Text>Show All Albums</Text>
+                    <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumSingle', { albums: albums })}>
+                        <Text style={styles.showAll}>Show All Albums</Text>
                     </Pressable>
                 </View>
 
