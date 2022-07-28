@@ -51,6 +51,16 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 10
+    },
+    showAll: {
+        textAlignVertical: 'center',
+        textAlign: 'center',
+        fontSize: (screenHeight + screenWidth) / 70,
+        borderRadius: 10,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginTop: 10,
+        width: screenWidth / 2.5,
     }
 });
 

@@ -34,6 +34,19 @@ export default async function getSpotifyItemsByName(name, type) {
     }
 }
 
+export async function getSpotifyRecommendations(genres) {
+    const token = await getSpotifyToken()
+
+    return axios(`https://api.spotify.com/v1/recommendations?market=US&&seed_genres=${genres.join('%2C')}`, {
+        'method': 'GET',
+        'headers': {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.data.access_token
+        }
+    })
+}
+
 export async function getSpotifyArtist(id) {
     const token = await getSpotifyToken();
 

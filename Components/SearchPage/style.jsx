@@ -2,28 +2,27 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     view: {
-        backgroundColor: "#101010",
+        // backgroundColor: "#101010",
         flex: 1
     },
     input: {
         margin: 10,
         height: 50,
         fontSize: 20,
-        backgroundColor: "#505050",
+        backgroundColor: "#ccc",
         borderRadius: 10,
         padding: 5,
-        color: "white"
+        // color: 'black'
     },
     info: {
-        color: "white",
-        fontSize: 16,
+        // color: "white",
+        fontSize: 18,
         textAlign: 'center',
         marginTop: 5,
-        marginBottom: -5
+        marginBottom: -5,
+        fontWeight: '600'
     },
     button: {
-        borderColor: '#505050',
-        borderWidth: 1,
         borderRadius: 5,
         margin: 5,
         padding: 10,
