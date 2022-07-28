@@ -12,21 +12,6 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 15,
     },
-    info: {
-        fontSize: 18,
-        textAlign: 'center',
-        marginTop: 5,
-        marginBottom: -5,
-        fontWeight: '600'
-    },
-    button: {
-        borderRadius: 5,
-        margin: 5,
-        padding: 10,
-        justifyContent: 'center',
-        boxSizing: 'border-box',
-        maxWidth: '47%'
-    },
     option: {
         borderColor: 'gray',
         borderWidth: 1,
@@ -49,10 +34,5 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'flex-start'
-    },
-    image: {
-        width: 160,
-        height: 160,
-        borderRadius: 10
     }
 });

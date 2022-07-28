@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator()
 export default function App() {
     return (
         <NavigationContainer>
-            <Tab.Navigator screenOptions={{ tabBarHideOnKeyboard: true }} tabBarOptions={{ showLabel: false }}>
+            <Tab.Navigator screenOptions={screenOptions}>
                 <Tab.Screen
                     name="TabBrowse"
                     component={BrowseStack}
@@ -27,5 +27,16 @@ export default function App() {
                     }} />
             </Tab.Navigator>
         </NavigationContainer>
-    );
+    )
+}
+
+const screenOptions = {
+    tabBarHideOnKeyboard: true,
+    tabBarShowLabel: false,
+    tabBarStyle: [
+        {
+            "display": "flex"
+        },
+        null
+    ]
 }
