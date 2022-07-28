@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         backgroundColor: "#ccc",
         borderRadius: 10,
-        padding: 5,
+        padding: 15,
     },
     info: {
         fontSize: 18,
