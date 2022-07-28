@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         backgroundColor: "#ccc",
         borderRadius: 10,
-        padding: 5,
+        padding: 15,
     },
     info: {
         fontSize: 18,
@@ -47,6 +47,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         flexWrap: 'wrap',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+    image: {
+        width: 160,
+        height: 160,
+        borderRadius: 10
     }
 });

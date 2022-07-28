@@ -46,8 +46,8 @@ export function SearchPage({ navigation }) {
                                         <Pressable key={uuid.v4()} style={styles.button} onPress={() => { navigation.navigate('ArtistSingle', { id: artist.id }) }}>
                                             <View style={{ justifyContent: 'center' }}>
                                                 <Image
-                                                    style={{ width: 160, height: 160 }}
-                                                    source={artist.images ? { uri: artist.images[artist.images.length - 2] ?.url } : null}
+                                                    style={styles.image}
+                                                    source={artist.images ? { uri: artist.images[artist.images.length - 2]?.url } : null}
                                                 />
                                                 <Text style={styles.info}>{artist.name}</Text>
                                             </View>
@@ -55,11 +55,13 @@ export function SearchPage({ navigation }) {
                                     )) :
                                     tracks.map((track) => (
                                         <Pressable key={uuid.v4()} style={styles.button}>
-                                            <Image
-                                                style={{ width: 160, height: 160 }}
-                                                source={track.album.images ? { uri: track.album.images[track.album.images.length - 2] ?.url } : null}
-                                            />
-                                            <Text style={styles.info}>{track.name}</Text>
+                                            <View style={{ justifyContent: 'center' }}>
+                                                <Image
+                                                    style={styles.image}
+                                                    source={track.album.images ? { uri: track.album.images[track.album.images.length - 2]?.url } : null}
+                                                />
+                                                <Text style={styles.info}>{track.name}</Text>
+                                            </View>
                                         </Pressable>
                                     ))
                             }

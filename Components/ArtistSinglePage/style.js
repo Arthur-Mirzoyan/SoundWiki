@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     releasesSection: {
-        marginTop: 20,
+        marginTop: 25,
+        paddingBottom: 10
     },
     releasesTitle: {
         fontSize: 30,
