@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollView } from 'react-native';
 import { getSpotifyArtistAlbumResults } from '../../helpers/api';
-import Album from '../Album/Album'
+import {Album} from '../Album/Album'
+import {distinctBy} from "../../helpers/arrayUtils";
 
 export function AlbumListPage({ navigation, route }) {
-    const artistId = route.params.id
+    const artistId = route.params.artistId
 
     const [albums, setAlbums] = useState([])
 
     useEffect(() => {
         (async () => {
             const albums = await getSpotifyArtistAlbumResults(artistId)
-            console.log(albums)
+            console.log(albums.length)
 
             setAlbums(albums)
         })()
@@ -26,20 +27,4 @@ export function AlbumListPage({ navigation, route }) {
             }
         </ScrollView>
     )
-}
-
-function distinctBy(array, predicate) {
-    const conditions = []
-    const result = []
-
-    for (let item of array) {
-        let condition = predicate(item)
-        if (!conditions.includes(condition)) {
-            conditions.push(condition)
-            result.push(item)
-        }
-    }
-    console.log(conditions);
-
-    return result;
 }

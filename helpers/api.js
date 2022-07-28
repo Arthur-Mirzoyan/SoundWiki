@@ -1,108 +1,73 @@
 import axios from 'axios';
 
 async function getSpotifyToken() {
-    try {
-        return await axios('https://accounts.spotify.com/api/token', {
-            'method': 'POST',
-            'headers': {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic OTExY2QyODZhZmYwNDdlYzlmNzc1MDMxYjEwN2VjZTI6MDMxM2Y0NzJjNDBjNGJkNzliNTVlODllOTUwMDJmMjU='
-            },
-            data: 'grant_type=client_credentials'
-        })
-    } catch (error) {
-        alert(error);
-    }
+    return axios('https://accounts.spotify.com/api/token', {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic OTExY2QyODZhZmYwNDdlYzlmNzc1MDMxYjEwN2VjZTI6MDMxM2Y0NzJjNDBjNGJkNzliNTVlODllOTUwMDJmMjU='
+        },
+        data: 'grant_type=client_credentials'
+    })
 }
 
 export default async function getSpotifyItemsByName(name, type) {
     name = name.trim().replace(' ', '+');
     const token = await getSpotifyToken();
 
-    try {
-        return await axios(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=20`, {
-            'method': 'GET',
-            'headers': {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + token.data.access_token
-            }
-        })
-    }
-    catch (error) {
-        return
-    }
+    return makeSpotifyRequest(`https://api.spotify.com/v1/search?q=${name}&type=${type}&limit=20`, token)
 }
 
 export async function getSpotifyRecommendations(genres) {
     const token = await getSpotifyToken()
 
-    return axios(`https://api.spotify.com/v1/recommendations?market=US&&seed_genres=${genres.join('%2C')}`, {
-        'method': 'GET',
-        'headers': {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token.data.access_token
-        }
-    })
+    return makeSpotifyRequest(`https://api.spotify.com/v1/recommendations?market=US&&seed_genres=${genres.join('%2C')}`, token)
 }
 
 export async function getSpotifyArtist(id) {
     const token = await getSpotifyToken();
 
-    return axios(`https://api.spotify.com/v1/artists/${id}`, {
-        'method': 'GET',
-        'headers': {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token.data.access_token
-        }
-    })
+    return makeSpotifyRequest(`https://api.spotify.com/v1/artists/${id}`, token)
 }
 
 export async function getSpotifyArtistTopTracks(id) {
     const token = await getSpotifyToken()
 
-    return axios(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`, {
-        'method': 'GET',
-        'headers': {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token.data.access_token
-        }
-    })
+    return makeSpotifyRequest(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`, token)
 }
 
 export async function getSpotifyArtistRelatedArtists(id) {
     const token = await getSpotifyToken();
 
-    return axios(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
-        'method': 'GET',
+    return makeSpotifyRequest(`https://api.spotify.com/v1/artists/${id}/related-artists`, token)
+}
+
+export async function getSpotifyArtistAlbumResults(id, limit = -1) {
+    const token = await getSpotifyToken()
+
+    let requestedLimit = limit > 50 || limit === -1 ? 50 : limit
+    const resultItems = []
+
+    let next = `https://api.spotify.com/v1/artists/${id}/albums?&market=US&include_groups=album&limit=${requestedLimit}`
+    do {
+        const data = (await makeSpotifyRequest(next, token)).data
+
+        next = data.next
+        resultItems.push(...data.items)
+        console.log(next)
+    } while (next !== null && (limit === -1 || resultItems.length < limit))
+
+    return resultItems
+}
+
+
+async function makeSpotifyRequest(url, token, method = 'GET') {
+    return axios(url, {
+        'method': method,
         'headers': {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token.data.access_token
         }
     })
-}
-
-export async function getSpotifyArtistAlbumResults(id, limit = 100) {
-    const token = await getSpotifyToken();
-
-    const result = []
-
-    for (let items = [], offset = 0; items == [] || items.length == 20; offset += 20) {
-        items = (await axios(`https://api.spotify.com/v1/artists/${id}/albums?market=US&offset=${offset}&limit=${limit < 20 ? limit : 20}`, {
-            'method': 'GET',
-            'headers': {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + token.data.access_token
-            }
-        })).data.items
-
-        result.push(...items)
-    }
-    
-    return result
 }
