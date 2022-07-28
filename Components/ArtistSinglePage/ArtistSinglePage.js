@@ -19,7 +19,7 @@ export function ArtistSinglePage({ navigation, route }) {
         (async () => {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
-            const albums = (await getSpotifyArtistAlbums(id)).data.items
+            const albums = await getSpotifyArtistAlbumResults(id)
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
             navigation.setOptions({ title: artist.name })
