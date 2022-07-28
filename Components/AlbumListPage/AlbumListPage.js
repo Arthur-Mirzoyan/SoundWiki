@@ -1,14 +1,26 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { ScrollView } from 'react-native';
-import { Album } from './Album';
+import { getSpotifyArtistAlbumResults } from '../../helpers/api';
+import Album from '../Album/Album'
 
-export function AlbumSingle({ navigation, route }) {
-    const albums = route.params.albums;
+export function AlbumListPage({ navigation, route }) {
+    const artistId = route.params.id
+
+    const [albums, setAlbums] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            const albums = await getSpotifyArtistAlbumResults(artistId)
+            console.log(albums)
+
+            setAlbums(albums)
+        })()
+    }, [])
 
     return (
         <ScrollView style={{ marginLeft: 10, marginTop: 10 }}>
             {
-                distinctBy(albums, item => item.name) ?.map((album, index) =>
+                distinctBy(albums, item => item.name)?.map((album, index) =>
                     <Album item={album} index={index} key={album.id} />
                 )
             }

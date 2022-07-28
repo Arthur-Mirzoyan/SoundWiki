@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, View, Text, ScrollView, Pressable } from 'react-native';
-import { getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArtists, getSpotifyArtistAlbums } from "../../helpers/api";
+import { getSpotifyArtist, getSpotifyArtistTopTracks, getSpotifyArtistRelatedArtists, getSpotifyArtistAlbumResults } from "../../helpers/api";
 import { ReadMore } from "./ReadMore/ReadMore";
 import { Track } from "./Track/Track";
 import { RelatedArtist } from './RelatedArtist/RelatedArtist';
-import { Album } from './Album/Album';
+import Album from '../Album/Album'
 import styles from './style';
 
 export function ArtistSinglePage({ navigation, route }) {
@@ -19,7 +19,7 @@ export function ArtistSinglePage({ navigation, route }) {
         (async () => {
             const artist = (await getSpotifyArtist(id)).data
             const topTracks = (await getSpotifyArtistTopTracks(id)).data.tracks
-            const albums = await getSpotifyArtistAlbumResults(id)
+            const albums = await getSpotifyArtistAlbumResults(id, 5)
             const relatedArtists = (await getSpotifyArtistRelatedArtists(id)).data.artists
 
             navigation.setOptions({ title: artist.name })
@@ -63,7 +63,7 @@ export function ArtistSinglePage({ navigation, route }) {
                         distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
                             <Album item={album} index={index} key={album.id}/>)
                     }
-                    <Pressable style={{ marginLeft: 25, marginTop: 10 }} onPressIn={() => navigation.push('AlbumSingle', { albums: albums })}>
+                    <Pressable style={{ marginLeft: 25, marginTop: 10 }} onPress={() => navigation.push('AlbumList', {artistId: artist.id})}>
                         <Text>Show All Albums</Text>
                     </Pressable>
                 </View>

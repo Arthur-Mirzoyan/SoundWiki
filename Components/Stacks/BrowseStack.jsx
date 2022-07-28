@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BrowsePage} from '../BrowsePage/BrowsePage';
 import {GenrePage} from '../GenrePage/GenrePage'
 import {ArtistSinglePage} from "../ArtistSinglePage/ArtistSinglePage";
+import { AlbumListPage } from '../AlbumListPage/AlbumListPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ export function BrowseStack() {
             <Stack.Screen options={{title: 'Browse'}} name="Browse" component={BrowsePage}/>
             <Stack.Screen options={{title: 'Genre'}} name="Genre" component={GenrePage}/>
             <Stack.Screen options={{title: 'Artist'}} name="ArtistSingle" component={ArtistSinglePage}/>
+            <Stack.Screen options={{title: 'Albums'}} name="AlbumList" component={AlbumListPage}/>
         </Stack.Navigator>
     )
 }

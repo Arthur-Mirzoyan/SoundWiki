@@ -86,13 +86,13 @@ export async function getSpotifyArtistRelatedArtists(id) {
     })
 }
 
-export async function getSpotifyArtistAlbumResults(id) {
+export async function getSpotifyArtistAlbumResults(id, limit = 100) {
     const token = await getSpotifyToken();
 
     const result = []
 
-    while (true) {
-        const items = (await axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=single%2Cappears_on&limit=25`, {
+    for (let items = [], offset = 0; items == [] || items.length == 20; offset += 20) {
+        items = (await axios(`https://api.spotify.com/v1/artists/${id}/albums?market=US&offset=${offset}&limit=${limit < 20 ? limit : 20}`, {
             'method': 'GET',
             'headers': {
                 'Content-Type': 'application/json',
@@ -101,9 +101,7 @@ export async function getSpotifyArtistAlbumResults(id) {
             }
         })).data.items
 
-        result.push(items)
-
-        if (items.length < 20) break
+        result.push(...items)
     }
     
     return result
