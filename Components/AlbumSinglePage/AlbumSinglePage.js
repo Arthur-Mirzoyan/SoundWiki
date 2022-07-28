@@ -64,7 +64,7 @@ function constructSectionList(tracks) {
     for (let track of tracks) {
         if (track.disc_number !== lastDiscNumber) {
             lastDiscNumber = track.disc_number
-            result.push(<DiscSectionHeader discNumber={track.disc_number} />)
+            result.push(<DiscSectionHeader discNumber={track.disc_number} key={`Disc ${track.disc_number}`} />)
         }
         result.push(<Track item={track} key={track.id} />)
     }
