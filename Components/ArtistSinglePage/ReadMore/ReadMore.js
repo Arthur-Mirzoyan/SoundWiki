@@ -2,12 +2,12 @@ import React, {useCallback, useState} from 'react'
 import {Text, View} from "react-native";
 
 export function ReadMore({textStyle, readMoreStyle, numberOfLines, children}) {
-    const [textShown, setTextShown] = useState(false)
+    const [textNotShown, setTextShown] = useState(false)
     const [toggled, setToggled] = useState(false)
     const [lengthMore, setLengthMore] = useState(false)
 
     function toggleNumberOfLines() {
-        setTextShown(!textShown)
+        setTextShown(!textNotShown)
         setToggled(true)
     }
 
@@ -19,7 +19,7 @@ export function ReadMore({textStyle, readMoreStyle, numberOfLines, children}) {
         <View>
             <Text
                 onTextLayout={onTextLayout}
-                numberOfLines={!textShown  ? undefined : numberOfLines}
+                numberOfLines={!textNotShown  ? undefined : numberOfLines}
                 style={textStyle}>
                 {children}
             </Text>
@@ -28,7 +28,7 @@ export function ReadMore({textStyle, readMoreStyle, numberOfLines, children}) {
                     <Text
                         onPress={toggleNumberOfLines}
                         style={readMoreStyle}>
-                        {textShown ? 'Read less' : 'Read more'}
+                        {textNotShown ? 'Read more' : 'Read less'}
                     </Text> : null
             }
         </View>
