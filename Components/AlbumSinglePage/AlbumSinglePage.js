@@ -1,12 +1,13 @@
 import React from "react";
-import {Image, Pressable, ScrollView, SectionList, Text, View} from "react-native";
-import {useEffect, useState} from "react";
-import {styles} from "./style";
-import {Track} from "./Track/Track";
-import {getSpotifyAlbumAndResults} from "../../helpers/api";
-import {DiscSectionHeader} from "./DiscSectionHeader/DiscSectionHeader";
+import { Image, Pressable, ScrollView, SectionList, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { styles } from "./style";
+import { Track } from "./Track/Track";
+import { getSpotifyAlbumAndResults } from "../../helpers/api";
+import { DiscSectionHeader } from "./DiscSectionHeader/DiscSectionHeader";
+import { getAt } from '../../helpers/arrayUtils';
 
-export function AlbumSinglePage({navigation, route}) {
+export function AlbumSinglePage({ navigation, route }) {
     const id = route.params.id
 
     const [album, setAlbum] = useState({})
@@ -17,7 +18,7 @@ export function AlbumSinglePage({navigation, route}) {
         (async () => {
             const [album, tracks] = await getSpotifyAlbumAndResults(id)
 
-            navigation.setOptions({title: album.name})
+            navigation.setOptions({ title: album.name })
 
             setYear(album.release_date.slice(0, 4))
             setAlbum(album)
@@ -31,12 +32,12 @@ export function AlbumSinglePage({navigation, route}) {
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.infoBox}>
-                    <Image style={styles.cover} source={album.images ? {uri: album.images[0].url} : null}/>
+                    <Image style={styles.cover} source={album.images ? { uri: album.images[0].url } : null} />
                     <Text style={styles.name}>{album.name}</Text>
                     <Pressable onPress={() =>
-                        navigation.push('ArtistSingle', album?.artists?.at(0)?.id ? { id: album.artists[0].id } : undefined)
+                        navigation.push('ArtistSingle', getAt(album?.artists, 0)?.id ? { id: album.artists[0].id } : undefined)
                     }>
-                        <Text style={styles.artists}>{album?.artists?.map(artist => artist.name)?.join(', ')}</Text>
+                        <Text style={styles.artists}>{album ?.artists ?.map(artist => artist.name) ?.join(', ')}</Text>
                     </Pressable>
                     <Text style={styles.info}>{year} · {album.total_tracks} tracks</Text>
                 </View>
@@ -52,8 +53,8 @@ export function AlbumSinglePage({navigation, route}) {
 }
 
 function constructSectionList(tracks) {
-    if (tracks[tracks.length-1].disc_number === 1) {
-        return <View style={{marginTop: 20}}>
+    if (tracks[tracks.length - 1].disc_number === 1) {
+        return <View style={{ marginTop: 20 }}>
             {tracks.map(track => <Track item={track} key={track.id} />)}
         </View>
     }

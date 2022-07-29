@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
-import {Text, View, TextInput, Pressable, ScrollView, Image, Appearance} from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TextInput, Pressable, ScrollView, Image, Appearance } from 'react-native';
 import getSpotifyItemsByName from '../../helpers/api';
-import {styles} from './style';
-import {SearchResult} from "./SearchResult/SearchResult";
+import { styles } from './style';
+import { SearchResult } from "./SearchResult/SearchResult";
+import { getAt } from '../../helpers/arrayUtils';
 
 const searchResultVariants = ['Artists', 'Tracks', 'Albums']
 
-export function SearchPage({navigation}) {
+export function SearchPage({ navigation }) {
     const [artists, setArtists] = useState([])
     const [tracks, setTracks] = useState([])
     const [albums, setAlbums] = useState([])
@@ -17,24 +18,24 @@ export function SearchPage({navigation}) {
 
     return (
         <>
-            <View style={{paddingBottom: 7}}>
+            <View style={{ paddingBottom: 7 }}>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={colorScheme === 'light' ? 'black' : 'white'}
                     placeholder=" Search artists or songs "
                     onChangeText={(text) => {
                         handleInputChange(text, setOptionsShown, setArtists, setTracks, setAlbums)
-                    }}/>
+                    }} />
                 {
                     areOptionsShown && (
-                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             {searchResultVariants.map(item =>
-                                    <Pressable style={shownItemVariant === item ? styles.chosen : styles.option}
-                                               onPress={() => setShownItemVariant(item)}
-                                               key={item}>
-                                        <Text>{item}</Text>
-                                    </Pressable>
-                                )}
+                                <Pressable style={shownItemVariant === item ? styles.chosen : styles.option}
+                                    onPress={() => setShownItemVariant(item)}
+                                    key={item}>
+                                    <Text>{item}</Text>
+                                </Pressable>
+                            )}
                         </View>
                     )
                 }
@@ -45,13 +46,13 @@ export function SearchPage({navigation}) {
                     areOptionsShown && (
                         <View style={styles.result}>
                             {
-                                {Artists: artists, Tracks: tracks, Albums: albums}[shownItemVariant]
+                                { Artists: artists, Tracks: tracks, Albums: albums }[shownItemVariant]
                                     .map(item =>
                                         <SearchResult
                                             navigation={navigation}
                                             item={item}
                                             itemVariant={shownItemVariant}
-                                            image={item?.album?.images ? item.album.images[1].url : item?.images?.at(1)?.url}
+                                            image={item ?.album ?.images ? item.album.images[1].url : getAt(item?.images, 1)?.url}
                                             key={item.id} />
                                     )
                             }

@@ -12,3 +12,10 @@ export function distinctBy(array, predicate) {
 
     return result;
 }
+
+export function getAt(array, index) {
+    if (array) {
+        return array[index];
+    }
+    return null;
+}

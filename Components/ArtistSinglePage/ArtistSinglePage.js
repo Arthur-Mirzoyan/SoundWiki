@@ -6,7 +6,7 @@ import { Track } from "./Track/Track";
 import { RelatedArtist } from './RelatedArtist/RelatedArtist';
 import { Album } from '../Album/Album'
 import styles from './style';
-import { distinctBy } from "../../helpers/arrayUtils";
+import { distinctBy, getAt } from "../../helpers/arrayUtils";
 import { capitalise } from '../../helpers/textUtils';
 
 const NOT_FOUND = "https://teelindy.com/wp-content/uploads/2019/03/default_image.png";
@@ -37,7 +37,7 @@ export function ArtistSinglePage({ navigation, route }) {
 
     return (
         <ScrollView>
-            <ImageBackground style={styles.avatar} source={artist?.images?.at(0)?.url ? { uri: artist.images[0].url } : null}>
+            <ImageBackground style={styles.avatar} source={getAt(artist?.images, 0)?.url ? { uri: artist.images[0].url } : null}>
                 <View style={styles.nameBox}>
                     <Text style={styles.name}>{artist.name}</Text>
                 </View>
@@ -49,14 +49,14 @@ export function ArtistSinglePage({ navigation, route }) {
                         numberOfLines={1}
                         textStyle={styles.genresList}
                         readMoreStyle={styles.genresReadMore}>
-                        {artist.genres ? capitalise(artist.genres?.join(', ')) : null}
+                        {artist.genres ? capitalise(artist.genres ?.join(', ')) : null}
                     </ReadMore>
                 </View>
                 <View style={styles.topTracksSection} >
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
-                        topTracks?.slice(0, 5)?.map((track, index) =>
-                            <Track item={track} index={index+1} key={track.id} />
+                        topTracks ?.slice(0, 5) ?.map((track, index) =>
+                            <Track item={track} index={index + 1} key={track.id} />
                         )
                     }
                 </View>
@@ -64,7 +64,7 @@ export function ArtistSinglePage({ navigation, route }) {
                 <View style={{ marginTop: 20 }}>
                     <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Albums:</Text>
                     {
-                        distinctBy(albums, item => item.name)?.slice(0, 5)?.map((album, index) =>
+                        distinctBy(albums, item => item.name) ?.slice(0, 5) ?.map((album, index) =>
                             <Album navigation={navigation} item={album} index={index} key={album.id} />)
                     }
                     <Pressable style={{ alignItems: 'center' }} onPressIn={() => navigation.push('AlbumList', { artistId: artist.id })}>
@@ -76,7 +76,7 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.releasesTitle}>Related artists:</Text>
                     <ScrollView horizontal={true}>
                         {
-                            relatedArtists?.map(artist =>
+                            relatedArtists ?.map(artist =>
                                 <RelatedArtist navigation={navigation} item={artist} key={artist.id} />
                             )
                         }
