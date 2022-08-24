@@ -8,6 +8,7 @@ import { SearchStack } from './Components/Stacks/SearchStack';
 const Tab = createBottomTabNavigator()
 
 export default function App() {
+
     return (
         <NavigationContainer>
             <Tab.Navigator screenOptions={screenOptions}>

@@ -14,19 +14,21 @@ export function AlbumSinglePage({ navigation, route }) {
     const [tracks, setTracks] = useState(null)
     const [year, setYear] = useState(0)
 
+  
+
     useEffect(() => {
         (async () => {
             const [album, tracks] = await getSpotifyAlbumAndResults(id)
 
             navigation.setOptions({ title: album.name })
-
+           
             setYear(album.release_date.slice(0, 4))
             setAlbum(album)
 
             setTracks(tracks)
         })()
     }, [])
-
+    console.log(album);
 
     return (
         <ScrollView>
@@ -50,25 +52,26 @@ export function AlbumSinglePage({ navigation, route }) {
             </View>
         </ScrollView>
     )
-}
-
-function constructSectionList(tracks) {
-    if (tracks[tracks.length - 1].disc_number === 1) {
-        return <View style={{ marginTop: 20 }}>
-            {tracks.map(track => <Track item={track} key={track.id} />)}
-        </View>
-    }
-
-    const result = []
-
-    let lastDiscNumber = 0
-    for (let track of tracks) {
-        if (track.disc_number !== lastDiscNumber) {
-            lastDiscNumber = track.disc_number
-            result.push(<DiscSectionHeader discNumber={track.disc_number} key={`Disc ${track.disc_number}`} />)
+    function constructSectionList(tracks) {
+        if (tracks[tracks.length - 1].disc_number === 1) {
+            return <View style={{ marginTop: 20 }}>
+                {tracks.map(track => <Track navigation={navigation} item={track} key={track.id} />)}
+            </View>
         }
-        result.push(<Track item={track} key={track.id} />)
+    
+        const result = []
+    
+        let lastDiscNumber = 0
+        for (let track of tracks) {
+            if (track.disc_number !== lastDiscNumber) {
+                lastDiscNumber = track.disc_number
+                result.push(<DiscSectionHeader discNumber={track.disc_number} key={`Disc ${track.disc_number}`} />)
+            }
+            result.push( <Track navigation={navigation} item={track} key={track.id} />)
+        }
+    
+        return result
     }
 
-    return result
 }
+

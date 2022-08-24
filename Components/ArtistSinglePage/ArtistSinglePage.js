@@ -54,7 +54,10 @@ export function ArtistSinglePage({ navigation, route }) {
                     <Text style={styles.topTracksTitle}>Popular Tracks:</Text>
                     {
                         topTracks ?.slice(0, 5) ?.map((track, index) =>
-                            <Track item={track} index={index + 1} key={track.id} />
+                  
+                            <Track navigation={navigation} item={track} index={index + 1} key={track.id} />
+                            
+                            
                         )
                     }
                 </View>
@@ -72,7 +75,7 @@ export function ArtistSinglePage({ navigation, route }) {
 
                 <View style={styles.releasesSection}>
                     <Text style={styles.releasesTitle}>Related artists:</Text>
-                    <ScrollView horizontal={true}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {
                             relatedArtists ?.map(artist =>
                                 <RelatedArtist navigation={navigation} item={artist} key={artist.id} />

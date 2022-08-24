@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         marginRight: 10
     },
     position: {
-        fontSize: 20,
+        fontSize: 19,
         textAlign: 'center'
     },
     trackInfoBox: {

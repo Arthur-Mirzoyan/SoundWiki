@@ -5,7 +5,7 @@ import {ArtistSinglePage} from "../ArtistSinglePage/ArtistSinglePage";
 import { AlbumListPage } from '../AlbumListPage/AlbumListPage';
 import {GenrePage} from "../GenrePage/GenrePage";
 import {AlbumSinglePage} from "../AlbumSinglePage/AlbumSinglePage";
-
+import {TrackSinglePage} from '../TrackSinglePage/TrackSinglePage';
 const Stack = createNativeStackNavigator();
 
 export function BrowseStack() {
@@ -16,6 +16,7 @@ export function BrowseStack() {
             <Stack.Screen options={{title: 'Artist'}} name="ArtistSingle" component={ArtistSinglePage}/>
             <Stack.Screen options={{title: 'Albums'}} name="AlbumList" component={AlbumListPage}/>
             <Stack.Screen options={{title: 'Album'}} name="AlbumSingle" component={AlbumSinglePage}/>
+            <Stack.Screen options={{title: 'Track'}} name="TrackSingle" component={TrackSinglePage}/>
         </Stack.Navigator>
     )
 }
