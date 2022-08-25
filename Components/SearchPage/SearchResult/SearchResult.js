@@ -50,7 +50,6 @@ export function SearchResult({ navigation, item, itemVariant, image }) {
                 />
                 <Text style={showModal ? styles.playing_info : styles.info}>{item.name}</Text>
             </Pressable>
-
             {
                 showModal && (
                     <PopUp item={item} setShowModal={setShowModal} showModal={showModal} setIsPlaying={setIsPlaying} isPlaying={isPlaying} />
