@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     },
     input: {
         margin: 10,
-        height: 50,
+        height: 'auto',
         fontSize: 20,
         backgroundColor: "#ccc",
         borderRadius: 10,

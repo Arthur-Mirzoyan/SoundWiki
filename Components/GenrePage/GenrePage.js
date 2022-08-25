@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, Pressable,Alert } from 'react-native'
+import { View, ScrollView, Pressable,Alert } from 'react-native'
 import { styles } from './style'
 import { getSpotifyRecommendations } from '../../helpers/api';
-import { truncateText } from '../../helpers/textUtils';
-import { PopUp } from '../PopUp/PopUp';
 import Track from './Track';
 
 

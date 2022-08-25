@@ -6,14 +6,19 @@ export const styles = StyleSheet.create({
     modal: {
         flex: 1,
         justifyContent: 'flex-end',
+        // marginTop: 20,
         alignItems: 'center',
     },
     modalBox: {
         // flexDirection: 'row',
         // display:'flex',
         width: WIDTH,
+<<<<<<< HEAD
         height: '25%',
         
+=======
+        height: 'auto',
+>>>>>>> 341935272d2571db621538ae4575040caf7e8ba4
         backgroundColor: 'gray',
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,

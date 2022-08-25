@@ -71,16 +71,19 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
                     <AntDesign
                     name={!isPlaying ? 'play' : 'pausecircle'}
                     size={40}
-                    color="black"
+                    color="white"
                     style={styles.icon}
                     onPress={() => {
-                        if (isPlaying) {
-                            sound.pauseAsync();
+                        try {
+                            if (isPlaying) {
+                                sound.pauseAsync();
+                            }
+                            else {
+                                sound.playAsync();
+                            }
+                            setIsPlaying(!isPlaying);
                         }
-                        else {
-                            sound.playAsync();
-                        }
-                        setIsPlaying(!isPlaying);
+                        catch (error) { }
                     }}
                 />
           
