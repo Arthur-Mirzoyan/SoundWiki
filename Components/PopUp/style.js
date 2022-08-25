@@ -9,15 +9,19 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalBox: {
+        // flexDirection: 'row',
+        // display:'flex',
         width: WIDTH,
         height: '25%',
+        
         backgroundColor: 'gray',
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
         margin: '-10%',
         padding: '5%',
-        alignItems: 'center'
+        alignItems:'center'
     },
+ 
     modalTitle: {
         color: 'white',
         fontSize: 30,

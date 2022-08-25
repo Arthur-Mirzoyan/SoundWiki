@@ -42,7 +42,7 @@ export function Track({ item, index }) {
                 </View>
                 <Image style={styles.albumImage} source={{ uri: image.url }} />
                 <View style={styles.trackInfoBox}>
-                    <Text style={styles.trackNameText}>{item.name}</Text>
+                    <Text style={showModal ? styles.playing_trackNameText:styles.trackNameText}>{item.name}</Text>
                     <Text style={styles.trackDurationText}>{formattedTime}</Text>
                 </View>
             </Pressable>

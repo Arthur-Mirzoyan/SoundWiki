@@ -24,8 +24,21 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 5
     },
+    playing_name: {
+        color: "green",
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 5
+    },
     artist: {
         color: "black",
+        fontSize: 13,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    playing_artist: {
+        color: "green",
         fontSize: 13,
         fontWeight: 'bold',
         textAlign: 'center'

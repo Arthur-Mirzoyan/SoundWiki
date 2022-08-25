@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, Pressable } from 'react-native'
+import { View, Text, Image, ScrollView, Pressable,Alert } from 'react-native'
 import { styles } from './style'
 import { getSpotifyRecommendations } from '../../helpers/api';
 import { truncateText } from '../../helpers/textUtils';
+import { PopUp } from '../PopUp/PopUp';
+import Track from './Track';
+
 
 export function GenrePage({ navigation, route }) {
     const [tracks, setTracks] = useState([])
@@ -20,28 +23,19 @@ export function GenrePage({ navigation, route }) {
 
 
     return (
+        <>
         <ScrollView>
             <View style={styles.container}>
                 {
                     tracks.map(track =>
                     (
-                        <View key={track.id} style={styles.songBox}>
-                            <Pressable onPress={() => {
-                                navigation.push('ArtistSingle', { id: track.artists[0].id })
-                            }}>
-                                <Image style={styles.image} source={{ uri: track.album.images[0].url }} />
-                                <Text numberOfLines={2} style={styles.name}>{track.name}</Text>
-                            </Pressable>
-
-                            <Pressable onPress={() => {
-                                navigation.push('ArtistSingle', { id: track.artists[0].id })
-                            }}>
-                                <Text style={styles.artist}>{truncateText(track.artists[0].name, 17)}</Text>
-                            </Pressable>
-                        </View>
+                       <Track key={track.id} track ={track} navigation={navigation} />
                     ))
                 }
             </View>
         </ScrollView>
+
+
+</>
     )
 }

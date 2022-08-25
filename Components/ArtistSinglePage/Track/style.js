@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
     trackNameText: {
         fontSize: 20
     },
+    playing_trackNameText: {
+        color:'green',
+        fontSize: 20
+    },
     trackDurationText: {
         fontSize: 17
     }

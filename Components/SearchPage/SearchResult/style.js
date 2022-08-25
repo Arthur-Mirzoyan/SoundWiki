@@ -21,4 +21,11 @@ export const styles = StyleSheet.create({
         marginBottom: -5,
         fontWeight: '600'
     },
+    playing_info: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: 5,
+        marginBottom: -5,
+        fontWeight: '600'
+    },
 })

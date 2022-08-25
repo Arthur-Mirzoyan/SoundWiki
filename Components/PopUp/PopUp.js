@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View,Image } from "react-native";
 import { Audio } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from './style';
@@ -7,8 +7,10 @@ import Modal from "react-native-modal";
 import TextTicker from 'react-native-text-ticker'
 
 export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }) {
+    console.log(item);
     const [on, setOn] = useState('');
     const [sound, setSound] = useState();
+   
 
     function playControl(song) {
         if (on != song) {
@@ -37,6 +39,8 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
             : undefined;
     }, [sound])
 
+
+
     return (
         <Modal
             isVisible={showModal}
@@ -53,8 +57,9 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
                 playControl(item.preview_url);
             }}
         >
-            <View style={styles.modalBox}>
-                <TextTicker
+            <View style={ styles.modalBox}>
+
+        <TextTicker
                     style={styles.modalTitle}
                     duration={5000}
                     loop
@@ -62,7 +67,8 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
                     repeatSpacer={50}
                     marqueeDelay={1500}
                 >{item.name}</TextTicker>
-                <AntDesign
+               
+                    <AntDesign
                     name={!isPlaying ? 'play' : 'pausecircle'}
                     size={40}
                     color="black"
@@ -77,10 +83,16 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
                         setIsPlaying(!isPlaying);
                     }}
                 />
+          
+                
+                
                 <Text style={styles.modalText}>
                     {item.artists.map(artist => artist.name).join(', ')}
                 </Text>
-            </View>
+
+</View>
+   
+            
         </Modal>
     )
 }
