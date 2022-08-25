@@ -48,7 +48,7 @@ export function SearchResult({ navigation, item, itemVariant, image }) {
                     style={styles.image}
                     source={image ? { uri: image } : null}
                 />
-                <Text style={ styles.info}>{item.name}</Text>
+                <Text style={showModal ? styles.playing_info : styles.info}>{item.name}</Text>
             </Pressable>
 
             {
