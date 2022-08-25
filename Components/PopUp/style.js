@@ -6,11 +6,12 @@ export const styles = StyleSheet.create({
     modal: {
         flex: 1,
         justifyContent: 'flex-end',
+        // marginTop: 20,
         alignItems: 'center',
     },
     modalBox: {
         width: WIDTH,
-        height: '25%',
+        height: 'auto',
         backgroundColor: 'gray',
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
