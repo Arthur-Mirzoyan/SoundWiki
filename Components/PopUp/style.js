@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     },
     modalBox: {
         width: WIDTH,
-        height: '25%',
         height: 'auto',
         backgroundColor: 'gray',
         borderTopRightRadius: 50,
