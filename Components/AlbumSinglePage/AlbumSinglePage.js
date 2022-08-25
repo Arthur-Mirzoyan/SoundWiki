@@ -37,7 +37,7 @@ export function AlbumSinglePage({ navigation, route }) {
                     <Pressable onPress={() =>
                         navigation.push('ArtistSingle', getAt(album?.artists, 0)?.id ? { id: album.artists[0].id } : undefined)
                     }>
-                        <Text style={styles.artists}>{album ?.artists ?.map(artist => artist.name) ?.join(', ')}</Text>
+                        <Text style={styles.artists}>{album?.artists?.map(artist => artist.name)?.join(', ')}</Text>
                     </Pressable>
                     <Text style={styles.info}>{year} · {album.total_tracks} tracks</Text>
                 </View>
@@ -55,7 +55,11 @@ export function AlbumSinglePage({ navigation, route }) {
 function constructSectionList(tracks) {
     if (tracks[tracks.length - 1].disc_number === 1) {
         return <View style={{ marginTop: 20 }}>
-            {tracks.map(track => <Track item={track} key={track.id} />)}
+            {
+                tracks.map(track =>
+                    <Track item={track} key={track.id} />
+                )
+            }
         </View>
     }
 

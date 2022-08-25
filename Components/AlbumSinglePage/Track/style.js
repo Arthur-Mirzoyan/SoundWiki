@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     box: {
@@ -12,15 +12,27 @@ export const styles = StyleSheet.create({
     artists: {
         fontSize: 17
     },
+    position: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    playingName: {
+        fontSize: 23,
+        color: 'green'
+    },
+    playingArtists: {
+        fontSize: 17,
+        color: 'green'
+    },
+    playingPosition: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'green'
+    },
     positionBox: {
         width: '8%',
         justifyContent: 'center',
         marginRight: 10
     },
-    position: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
-    trackInfoBox: {
-    }
+    
 })
