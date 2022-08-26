@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     topPosition: {
         fontSize: 22
     },
+    playing_topPosition: {
+        fontSize: 22,
+        color: 'green'
+    },
     albumImage: {
         width: 64,
         height: 64,
@@ -20,7 +24,8 @@ const styles = StyleSheet.create({
     },
     trackInfoBox: {
         flexDirection: 'column',
-        marginLeft: 7
+        marginLeft: 7,
+        width: '100%',
     },
     trackNameText: {
         fontSize: 20
@@ -31,6 +36,10 @@ const styles = StyleSheet.create({
     },
     trackDurationText: {
         fontSize: 17
+    },
+    playing_trackDurationText: {
+        fontSize: 17,
+        color: 'green'
     }
 });
 

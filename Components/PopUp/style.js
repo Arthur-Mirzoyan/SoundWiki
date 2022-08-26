@@ -6,28 +6,25 @@ export const styles = StyleSheet.create({
     modal: {
         flex: 1,
         justifyContent: 'flex-end',
-        // marginTop: 20,
         alignItems: 'center',
     },
     modalBox: {
-
         width: WIDTH,
         height: 'auto',
-        backgroundColor: 'gray',
+        backgroundColor: '#98b38d',
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
         margin: '-10%',
-        padding: '5%',
-        alignItems:'center'
+        padding: 20,
+        paddingBottom: 25,
+        alignItems: 'center'
     },
- 
     modalTitle: {
         color: 'white',
         fontSize: 30,
         textAlign: 'center',
         alignSelf: 'center'
     },
-    
     modalText: {
         color: 'white',
         fontSize: 24,

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     genresReadMore: {
-        color: 'blue',
+        color: '#98b38d',
         fontSize: 17,
         marginTop: 3
     },

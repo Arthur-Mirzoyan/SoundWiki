@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Text, View,Image } from "react-native";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
 import { Audio } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from './style';
@@ -7,21 +7,7 @@ import Modal from "react-native-modal";
 import TextTicker from 'react-native-text-ticker'
 
 export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }) {
-    console.log(item);
-    const [on, setOn] = useState('');
     const [sound, setSound] = useState();
-   
-
-    function playControl(song) {
-        if (on != song) {
-            setOn(song);
-            playSound(song);
-        }
-        else {
-            setOn('');
-            sound.unloadAsync();
-        }
-    }
 
     async function playSound(song) {
         const { sound } = await Audio.Sound.createAsync({ uri: song });
@@ -30,36 +16,25 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
         await sound.playAsync();
     }
 
-    useEffect(() => {
-
-        return sound ?
-            () => {
-                sound.unloadAsync();
-            }
-            : undefined;
-    }, [sound])
-
-
-
     return (
         <Modal
             isVisible={showModal}
             hasBackdrop={true}
             backdropColor='transperant'
             style={styles.modal}
-            onModalShow={() => playControl(item.preview_url)}
+            onModalShow={() => playSound(item.preview_url)}
             onBackdropPress={() => {
                 setShowModal(!showModal);
-                playControl(item.preview_url);
+                sound.unloadAsync();
             }}
             onBackButtonPress={() => {
                 setShowModal(!showModal);
-                playControl(item.preview_url);
+                sound.unloadAsync();
             }}
         >
-            <View style={ styles.modalBox}>
+            <View style={styles.modalBox} >
 
-        <TextTicker
+                <TextTicker
                     style={styles.modalTitle}
                     duration={5000}
                     loop
@@ -67,8 +42,8 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
                     repeatSpacer={50}
                     marqueeDelay={1500}
                 >{item.name}</TextTicker>
-               
-                    <AntDesign
+
+                <AntDesign
                     name={!isPlaying ? 'play' : 'pausecircle'}
                     size={40}
                     color="white"
@@ -86,16 +61,11 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
                         catch (error) { }
                     }}
                 />
-          
-                
-                
+
                 <Text style={styles.modalText}>
                     {item.artists.map(artist => artist.name).join(', ')}
                 </Text>
-
-</View>
-   
-            
+            </View>
         </Modal>
     )
 }

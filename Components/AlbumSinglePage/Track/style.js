@@ -34,5 +34,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         marginRight: 10
     },
+    trackInfoBox: {
+        width: '100%'
+    }
     
 })

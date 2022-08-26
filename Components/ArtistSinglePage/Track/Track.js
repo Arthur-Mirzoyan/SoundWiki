@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Image, Pressable, Text, View, Alert } from "react-native";
 import { PopUp } from '../../PopUp/PopUp';
+import { truncateText } from '../../../helpers/textUtils';
 import styles from './style';
 
 export function Track({ item, index }) {
@@ -38,12 +39,12 @@ export function Track({ item, index }) {
                 }}
             >
                 <View style={styles.topPositionBox}>
-                    <Text style={styles.topPosition}>{index}</Text>
+                    <Text style={showModal ? styles.playing_topPosition : styles.topPosition}>{index}</Text>
                 </View>
                 <Image style={styles.albumImage} source={{ uri: image.url }} />
                 <View style={styles.trackInfoBox}>
-                    <Text style={showModal ? styles.playing_trackNameText:styles.trackNameText}>{item.name}</Text>
-                    <Text style={styles.trackDurationText}>{formattedTime}</Text>
+                    <Text style={showModal ? styles.playing_trackNameText : styles.trackNameText}>{truncateText(item.name, 30)}</Text>
+                    <Text style={showModal ? styles.playing_trackDurationText : styles.trackDurationText}>{formattedTime}</Text>
                 </View>
             </Pressable>
 
