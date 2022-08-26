@@ -9,6 +9,8 @@ import styles from './style';
 import { distinctBy, getAt } from "../../helpers/arrayUtils";
 import { capitalise } from '../../helpers/textUtils';
 
+const NOT_FOUND = "https://teelindy.com/wp-content/uploads/2019/03/default_image.png";
+
 export function ArtistSinglePage({ navigation, route }) {
     const id = route.params.id
 
