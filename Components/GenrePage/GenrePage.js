@@ -26,8 +26,13 @@ export function GenrePage({ navigation, route }) {
                     tracks.map(track =>
                     (
                         <View key={track.id} style={styles.songBox}>
+                            {console.log(track)}
                             <Pressable onPress={() => {
-                                navigation.push('ArtistSingle', { id: track.artists[0].id })
+                                console.log(track.id);
+                              
+                                     navigation.push('TrackSingle', { id: track })
+                                
+                               
                             }}>
                                 <Image style={styles.image} source={{ uri: track.album.images[0].url }} />
                                 <Text numberOfLines={2} style={styles.name}>{track.name}</Text>

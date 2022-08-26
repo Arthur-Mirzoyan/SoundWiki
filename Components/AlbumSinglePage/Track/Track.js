@@ -3,9 +3,10 @@ import {Pressable, Text, View} from "react-native";
 import {styles} from "./style";
 import {truncateText} from "../../../helpers/textUtils";
 
-export function Track({item}) {
+export function Track({navigation,item}) {
+    console.log(item);
     return (
-        <Pressable>
+        <Pressable onPress={()=>{navigation.push('TrackSingle', {id:item})}} >
             <View style={styles.box}>
                 <View style={styles.positionBox}>
                     <Text style={styles.position}>{item.track_number}</Text>

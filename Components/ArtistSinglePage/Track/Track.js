@@ -1,8 +1,8 @@
 import React from 'react'
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import styles from './style';
 
-export function Track({ item, index }) {
+export function Track({ item, index,navigation }) {
     let image = item.album.images[item.album.images.length - 2]
 
     let durationMinutes = Math.round(item.duration_ms / 60000)
@@ -10,6 +10,7 @@ export function Track({ item, index }) {
     let formattedTime = `${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`
 
     return (
+        <Pressable onPress={()=>{navigation.push("TrackSingle", {id:item})}}>
         <View style={styles.box}>
             <View style={styles.topPositionBox}>
                 <Text style={styles.topPosition}>{index}</Text>
@@ -20,5 +21,6 @@ export function Track({ item, index }) {
                 <Text style={styles.trackDurationText}>{formattedTime}</Text>
             </View>
         </View>
+        </Pressable>
     )
 }

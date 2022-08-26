@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "SoundWiki",
+    "name": "Sound Wiki",
     "slug": "SoundWiki",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "soundwiki_application.apk"
     },
     "web": {
       "favicon": "./assets/favicon.png"
