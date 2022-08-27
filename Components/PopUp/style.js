@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
         height: 48,
         borderRadius: 10
     },
+  
     infoBox: {
         justifyContent: 'center',
         paddingHorizontal: 10,
