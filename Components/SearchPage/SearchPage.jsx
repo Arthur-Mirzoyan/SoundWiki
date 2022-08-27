@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Pressable, ScrollView, useColorScheme } from 'react-native';
+import { Text, View, TextInput, Pressable, ScrollView } from 'react-native';
 import getSpotifyItemsByName from '../../helpers/api';
 import { styles } from './style';
 import { SearchResult } from "./SearchResult/SearchResult";
@@ -14,14 +14,12 @@ export function SearchPage({ navigation }) {
 
     const [shownItemVariant, setShownItemVariant] = useState('Artists');
     const [areOptionsShown, setOptionsShown] = useState(false);
-    const theme = useColorScheme();
 
     return (
         <>
-            <View style={{ paddingBottom: 7 }}>
+            <View style={{ paddingBottom: 7}}>
                 <TextInput
                     style={styles.input}
-                    placeholderTextColor={theme === 'light' ? 'black' : 'white'}
                     placeholder=" Search artists or songs "
                     onChangeText={(text) => {
                         handleInputChange(text, setOptionsShown, setArtists, setTracks, setAlbums)
