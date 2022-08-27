@@ -8,7 +8,7 @@ import TextTicker from 'react-native-text-ticker'
 
 export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }) {
     const [sound, setSound] = useState();
-    const image = item.album?.images?.[0] ? { uri: item.album?.images?.[0].url } : require('../../assets/icon.png');
+    const image = item.album?.images?.[0] ? { uri: item.album?.images?.[0].url } : require('./media/icon.png');
 
     async function playSound(song) {
         const { sound } = await Audio.Sound.createAsync({ uri: song }, { shouldPlay: true }, handleStatusChange);

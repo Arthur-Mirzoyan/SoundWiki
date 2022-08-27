@@ -7,7 +7,7 @@ import styles from './style';
 export function Track({ item, index }) {
     const [showModal, setShowModal] = useState(false);
     const [isPlaying, setIsPlaying] = useState(true);
-    console.log(item)
+
     let image = item.album.images[item.album.images.length - 2]
     let durationMinutes = Math.round(item.duration_ms / 60000)
     let durationSeconds = Math.round(item.duration_ms / 1000 % 60)
