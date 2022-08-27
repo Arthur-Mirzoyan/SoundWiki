@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
         fontSize: 17
     },
     position: {
-        fontSize: 20,
-        textAlign: 'center'
+        fontSize: 19,
+        textAlign: 'center' 
     },
     playingName: {
         fontSize: 23,
@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
         color: 'green'
     },
     playingPosition: {
-        fontSize: 20,
+        fontSize: 19,
         textAlign: 'center',
         color: 'green'
     },
