@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable, ScrollView, Appearance } from 'react-native'
+import React from 'react';
+import { View, Text, Image, Pressable, ScrollView, useColorScheme } from 'react-native'
 import { styles } from './style'
 
 class Genre {
@@ -23,8 +23,8 @@ const genres = [
 ]
 
 export function BrowsePage({ navigation }) {
-    const [colorScheme, setColorScheme] = useState("light");
-    useEffect(() => setColorScheme(Appearance.getColorScheme()), []);
+
+    const theme = useColorScheme();
 
     return (
         <ScrollView>
@@ -39,7 +39,7 @@ export function BrowsePage({ navigation }) {
                             width: 157,
                             height: 167,
                             padding: 'auto',
-                            backgroundColor: colorScheme === "light" ? genre.light_color : genre.dark_color
+                            backgroundColor: theme === 'light' ? genre.light_color : genre.dark_color
                         }}>
                             <View style={styles.nameBox}>
                                 <Text style={styles.name}>{genre.name}</Text>

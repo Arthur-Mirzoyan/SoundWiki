@@ -28,7 +28,7 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
         <Modal
             isVisible={showModal}
             hasBackdrop={true}
-            backdropColor='transperant'
+            backdropColor='rgba(0, 0, 0, 0.5)'
             style={styles.modal}
             onModalShow={() => playSound(item.preview_url)}
             onBackdropPress={() => {
