@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { Audio } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
@@ -8,7 +8,7 @@ import TextTicker from 'react-native-text-ticker'
 
 export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }) {
     const [sound, setSound] = useState();
-    const image = item.album.images[item.album.images.length - 2]
+    const image = item.album?.images?.[0] ? { uri: item.album?.images?.[0].url } : require('../../assets/icon.png');
 
     async function playSound(song) {
         const { sound } = await Audio.Sound.createAsync({ uri: song }, { shouldPlay: true }, handleStatusChange);
@@ -47,7 +47,7 @@ export function PopUp({ item, setShowModal, setIsPlaying, showModal, isPlaying }
             <View style={styles.modalBox}>
 
                 <View>
-                    <Image style={styles.albumImage} source={{ uri: image.url }} />
+                    <Image style={styles.albumImage} source={image} />
                 </View>
 
                 <View style={styles.infoBox}>
