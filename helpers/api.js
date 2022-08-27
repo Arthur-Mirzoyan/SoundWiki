@@ -1,11 +1,13 @@
 import axios from 'axios';
 
+const AUTH_TOKEN = ""
+
 async function getSpotifyToken() {
     return axios('https://accounts.spotify.com/api/token', {
         'method': 'POST',
         'headers': {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic OTExY2QyODZhZmYwNDdlYzlmNzc1MDMxYjEwN2VjZTI6MDMxM2Y0NzJjNDBjNGJkNzliNTVlODllOTUwMDJmMjU='
+            'Authorization': `Basic ${AUTH_TOKEN}`
         },
         data: 'grant_type=client_credentials'
     })
@@ -28,6 +30,11 @@ export async function getSpotifyArtist(id) {
     const token = await getSpotifyToken();
 
     return makeSpotifyRequest(`https://api.spotify.com/v1/artists/${id}`, token)
+}
+export async function getSpotifyTrack(id) {
+    const token = await getSpotifyToken();
+
+    return makeSpotifyRequest(`https://api.spotify.com/v1/tracks/${id}`, token)
 }
 
 export async function getSpotifyArtistTopTracks(id) {
@@ -61,7 +68,6 @@ export async function getSpotifyArtistAlbumResults(id, limit = -1) {
 
 export async function getSpotifyAlbumAndResults(id, limit = -1) {
     const token = await getSpotifyToken()
-
     const album = (await makeSpotifyRequest(`https://api.spotify.com/v1/albums/${id}?market=US`, token)).data
     const tracks = [...album.tracks.items]
 

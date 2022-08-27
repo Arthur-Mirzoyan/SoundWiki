@@ -17,6 +17,7 @@ export function AlbumSinglePage({ navigation, route }) {
     useEffect(() => {
         (async () => {
             const [album, tracks] = await getSpotifyAlbumAndResults(id)
+            
 
             navigation.setOptions({ title: album.name })
 
